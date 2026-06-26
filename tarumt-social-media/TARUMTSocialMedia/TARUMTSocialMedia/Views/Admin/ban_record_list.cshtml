@@ -1,0 +1,101 @@
+﻿@model List<BanRecord>
+@inject Helper hp
+
+@for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+
+<style>
+    table {
+        width: 80%;
+        border: 1px solid black;
+        margin: auto;
+    }
+
+    th {
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: gray;
+    }
+
+    td {
+        text-align: center;
+        border-bottom: 1px solid black;
+    }
+
+    .Detail {
+        padding: 10px;
+        color: white;
+        background-color: goldenrod;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .Ban {
+        padding: 10px;
+        color: white;
+        background-color: darkred;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .search {
+        width: 100px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    .Submit {
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    input {
+        margin-left: 10px;
+    }
+
+</style>
+
+<div style="width: 80%; display:flex; margin:auto;">
+    <form asp-controller="Admin" asp-action="Reportlist_Search" data-ajax="true" data-ajax-update="#target" method="get">
+        <input type="number" class="search" name="usernameId" placeholder="Search banned UserID'" style="width: 300px;">
+        <input type="date" name="startdate" style="width: 200px;">
+        <button type="submit" class="Submit"> Search </button>
+    </form>
+</div>
+
+<div id="target">
+    <table style="margin-top: 20px">
+        <tr style="border: 1px solid black;">
+            <th>ID</th>
+            <th>User</th>
+            <th>Reason</th>
+            <th>Ban date</th>
+            <th>Unban date</th>
+            <th>action</th>
+        </tr>
+
+        @foreach (var u in Model)
+        {
+            <tr style="height: 50px">
+                <td>@u.Id</td>
+                <td>@hp.GetUserName(u.UserId)</td>
+                <td>@u.Reason</td>
+                <td>@u.StartDate</td>
+                <td>@u.EndDate</td>
+                <td>
+                    <form asp-action="unbanUser" asp-controller="Admin" method="post">
+                        <input name="BanRecordID" value=@u.Id hidden>
+                        <button type="submit" class="Detail">Unban</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

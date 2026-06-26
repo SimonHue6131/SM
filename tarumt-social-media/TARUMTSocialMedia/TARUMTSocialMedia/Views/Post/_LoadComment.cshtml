@@ -1,0 +1,53 @@
+﻿@model Comment
+@inject DB db
+@inject Helper hp
+ 
+@{
+    var commenter = db.Users.FirstOrDefault(x => x.Id == Model.UserId);
+    var post = db.Post.FirstOrDefault(p => p.Id == Model.PostId);
+} 
+
+
+<div class="center-comment" id="commentbox-@Model.Id">
+    <img src="~/images/profile/@commenter.PhotoURL"> 
+    <div class="commenterd">
+        <p class="commenter-name">@hp.DisplayNickname(commenter.Username)</p> 
+        <p class="commenter-date">@(Model.DateComment)</p>
+    <p class="comment-con">@(Model.Content)</p>
+    @if(User.IsInRole("1")){
+    <p style="color:gray">CommentID @Model.Id on Post @post.Id by @Model.Post.User.Id </p>
+    }
+</div>
+
+
+    <div style="display:flex">
+       
+    @if (commenter.Id == hp.GetUserID(User.Identity.Name) || User.IsInRole("1") || Model.Post.User.Id == hp.GetUserID(User.Identity.Name))
+    {
+        <button class="poster-moreinfo" onclick="toggleBlackout(deleteCommentRemind(@(Model.Id), @(commenter.Id), @(hp.GetUserID(User.Identity.Name)), @(hp.GetUserRole(User.Identity.Name)), @(Model.Post.User.Id)))">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 24 24">
+                <path d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z"></path>
+            </svg>
+        </button>
+    }
+        <button class="poster-moreinfo" onclick="ReportWindow('comment', @Model.Id, @hp.GetUserID(User.Identity.Name), @Model.Id)">
+            <?xml version="1.0" encoding="utf-8"?>
+            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 21V3.90002C5 3.90002 5.875 3 8.5 3C11.125 3 12.875 4.8 15.5 4.8C18.125 4.8 19 3.9 19 3.9V14.7C19 14.7 18.125 15.6 15.5 15.6C12.875 15.6 11.125 13.8 8.5 13.8C5.875 13.8 5 14.7 5 14.7" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
+
+</div>
+
+<script>
+    function deleteCommentRemind(CommentID, CommenterID, CurrentUserID, CurrentUserRole, Op){
+        console.log(CommentID, CommenterID, CurrentUserID, CurrentUserRole, Op);
+        return `
+            <div style="text-align:center; align-content: center; height: 450px;">
+                    <h1>Delete the comment?</h1>
+                    <button class="closebtnpop" style="background-color: red; position:relative; top:200px; width: 120px" onclick="deleteComment(${CommentID})">Delete</button>
+            </div>
+        `
+    }
+</script>

@@ -1,0 +1,171 @@
+﻿@inject DB db
+@await Html.PartialAsync("_blackout");
+
+@model User
+@{
+    var u = db.Users.FirstOrDefault(x => x.Email == User.Identity!.Name);
+    var posts = db.Post.Where(p => p.User.Id == Model.Id).OrderByDescending(p => p.Id).ToList();
+    bool followed = db.Follows.Any(x => x.UserId == u!.Id && x.FollowedUserId == Model.Id);
+}
+<div id="profile_menu">
+    <div id="profile_banner" style="background-image: url('/images/banner/@(Model.Detail?.BannerURL)')">
+    </div>
+
+    <div id="profile_image_container">
+        <img id="profile_image" src=~/images/profile/@(Model.PhotoURL)>
+    </div>
+    
+    
+    <h1 id="profile_nickname">@(Model.Detail.DisplayableNickname == 1 ? @Model.Detail?.Nickname : "@" + @Model.Username)</h1>
+    <h3 id="profile_username">@@@Model.Username</h3>
+
+       @if(u.Id == Model.Id){
+        <div id="profile_friend_button">
+            <a href="/Account/Edit">
+                <button id="follow-btn" style="width: 150px;">Edit Profile</button>
+            </a>
+        </div>
+        }else if (followed)
+        {
+            <form data-user="@Model.Id" asp-controller="Account" asp-action="unfollowUser" method="post">
+                <input type="hidden" name="targetID" value="@Model.Id" />
+                <button type="submit" id="follow-btn">Followed</button>
+            </form>
+        }
+        else{
+            <form data-user="@Model.Id" asp-controller="Account" asp-action="FollowUser" method="post">
+                <input type="hidden" name="targetID" value="@Model.Id" />
+                <button type="submit" onclick="CallAlert('TEST')" id="follow-btn">Follow</button>
+            </form> 
+        }
+
+    <div id="profile_detail">
+        <div style="display: flex;">
+            <div id="profile_fcount" onclick="loadUser(@Model.Id, 'GetFollowing')">
+                <div id="profile_fcount2">
+                    <h2>@Model.Detail!.FollowingCount</h2>
+                </div>
+                <div id="profile_fcount1">
+                    Followings
+                </div>
+            </div>
+
+            <div id="profile_fcount" onclick="loadUser(@Model.Id, 'GetFollower')">
+                <div id="profile_fcount2">
+                    <h2>@Model.Detail!.FollowerCount</h2>
+                </div>
+                <div id="profile_fcount1">
+                    Followers
+                </div>
+            </div>
+        </div>
+
+        <div id="profile_jd">
+            Join date: @(((DateTime)Model.DateJoin).ToString("yyyy-MM-dd"))
+        </div>
+    </div>
+
+    <div id="profile_bio">
+        <p style="white-space: pre-line;">@Model.Detail.Bio</p>
+    </div>
+</div>
+
+@* <div id="profile_nv_post">
+        <input type="radio" class="profile_sub_radio1" name="profile_sub_menu" value="show_all" id="show_all" checked>
+        <label for="show_all" class="profile_sub_label">All</label>
+
+        <input type="radio" class="profile_sub_radio2" name="profile_sub_menu" value="show_text" id="show_text">
+        <label for="show_text" class="profile_sub_label">Text</label>
+
+        <input type="radio" class="profile_sub_radio3" name="profile_sub_menu" value="show_media" id="show_media">
+        <label for="show_media" class="profile_sub_label">Media</label>
+
+        <input type="radio" class="profile_sub_radio4" name="profile_sub_menu" value="show_badge" id="show_badge">
+        <label for="show_badge" class="profile_sub_label">Badges</label>
+
+        <div id="profile_sub_bar"></div>
+
+        <input type="text" id="profile_searchbox" placeholder="Search something!" name=searchbox>
+        <input type="submit" id="profile_searchbutton" value="">
+
+        <input type="hidden" name="profileId" value="@Model.Id" />
+</div> *@
+
+<div id="profile_nv_post">
+    <form id="profile_form" data-ajax="true" data-ajax-method="get" data-ajax-loading="#loader" data-ajax-update="#profile_content">
+            <input type="radio" class="profile_sub_radio1" name="profile_sub_menu" value="show_all" id="show_all" checked>
+            <label for="show_all" class="profile_sub_label">All</label>
+
+            <input type="radio" class="profile_sub_radio2" name="profile_sub_menu" value="show_text" id="show_text">
+            <label for="show_text" class="profile_sub_label">Text</label>
+
+            <input type="radio" class="profile_sub_radio3" name="profile_sub_menu" value="show_media" id="show_media">
+            <label for="show_media" class="profile_sub_label">Media</label>
+
+
+            <div id="profile_sub_bar"></div>
+    </form>
+
+    <form data-ajax="true" data-ajax-method="get" data-ajax-loading="#loader" data-ajax-update="#profile_content" asp-controller="Post" asp-action="Profile_LoadSearchedPost"
+          style="display:flex;">
+        <input type="text" id="profile_searchbox" placeholder="Search something!" name=searchbox>
+        <input type="submit" id="profile_searchbutton" value="">
+
+        <input type="hidden" name="profileId" value="@Model.Id" />
+    </form>
+</div>
+
+<div id="profile_content">
+    <div style="text-align:center; font-size: 20px" id="loader">
+        <img id="profile-loader" src="~/images/icon/lacie_spin.gif" style="height:240px" />
+        <p>Loading...</p>
+    </div>
+    @if (!posts.Any(p => p.Anomymous == 0))
+    {
+        <div style="text-align:center; font-size: 20px">
+            <img src="~/images/icon/lacie_sigh.png" style="height:260px" />
+            <p>User didn't post any contents</p>
+        </div>
+    }
+
+    @foreach (var post in posts)
+    {
+        @if (post.Anomymous == 0 || User.IsInRole("1"))
+        {
+            <div class="center-post" id="postbox-@post.Id">
+                @Html.Partial("../Post/_LoadPost", post)
+            </div>
+        }
+    }
+
+
+    @* <div style="text-align:center; font-size: 20px">
+    <img src="~/images/icon/lacie_sigh.png" style="height:260px"/>
+    <p>User didn't post any contents</p>
+    </div> *@
+</div>
+
+<script>
+    document.querySelectorAll('input[name="profile_sub_menu"]').forEach(radio => {
+    radio.addEventListener('change', function () {
+        const form = document.getElementById('profile_form');
+        switch (this.value) {
+            case "show_all":
+                form.action = "/Post/Profile_LoadAllPost?ProfileId=@Model.Id";
+                break;
+            case "show_text":
+                console.log("load text");
+                form.action = "/Post/Profile_LoadTextPost?ProfileId=@Model.Id";
+                break;
+            case "show_media":
+                console.log("load media");
+                form.action = "/Post/Profile_LoadMediaPost?ProfileId=@Model.Id";
+                break;
+            default:
+                form.action = "/Post/Profile_LoadAllPost?ProfileId=@Model.Id";
+                break;
+        }
+        $(form).submit();
+    });
+});
+</script>

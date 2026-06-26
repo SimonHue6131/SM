@@ -1,0 +1,100 @@
+﻿@model Comment
+@inject DB db
+@inject Helper helper
+
+@for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+<style>
+    table {
+        width: 40%;
+        border: 1px solid black;
+        margin: auto;
+        background-color: white;
+    }
+
+    th {
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: gray;
+    }
+
+    td {
+        text-align: left;
+        height: 30px;
+        border-bottom: 1px solid black;
+    }
+
+    .Detail {
+        padding: 10px;
+        color: white;
+        background-color: goldenrod;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .Ban {
+        padding: 10px;
+        color: white;
+        background-color: darkred;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .search {
+        width: 100px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    .Submit {
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    input {
+        margin-left: 10px;
+    }
+</style>
+
+<table>
+    <tr>
+        <td>Comment ID</td>
+        <td>@Model.Id</td>
+    </tr>
+
+    <tr>
+        <td>Content</td>
+        <td>@Model.Content</td>
+    </tr>
+
+    <tr>
+        <td style="width:50%">Comment Date</td>
+        <td>@Model.DateComment.ToString("yyyy-MM-dd")</td>
+    </tr>
+
+    <tr>
+        <td>User</td>
+        <td><a href="/Account/Profile/@@@Model.User.Username/@Model.User.Id">@Model.User.Username (@Model.User.Id)</a></td>
+    </tr>
+
+    <tr>
+        <td>Post</td>
+        <td><a href="/Post/Content?PostID=@Model.Id">@Model.PostId</a></td>
+    </tr>
+
+
+    <tr style="height: 40px">
+        <td>Action</td>
+        <td>
+            <a href="/Post/Content?PostID=@Model.PostId" class="Detail">View</a>
+        </td>
+    </tr>
+
+</table>

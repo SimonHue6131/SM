@@ -1,0 +1,26 @@
+﻿@model ReportVM
+
+<div id="blackout" style="opacity:1; visibility: visible;">
+    <div id="blackout-window">
+        <div id="blackout-contentbox">
+            <div style="text-align:center; justify-items: center; height: 450px; ">
+                <div style="text-align: left; width: 550px;">
+               <label asp-for="Reason"></label>
+                <select asp-for=Reason class="form-cc">
+                    <option value="Inappropriate">Inappropriate</option>
+                    <option value="ForFun">For Fun</option>
+               </select>
+               </div>
+
+                
+                <div style="text-align: left; width: 550px; margin-top: 50px;">
+               <label asp-for="Info"></label>
+               <textarea asp-for="Info" class="text-cc"></textarea>
+               </div>
+
+                <button class="closebtnpop" style="background-color: red; position:relative; top:10px; width: 120px">Report</button>
+            </div>
+        </div>
+        <button class="closebtnpop">Close</button>
+    </div>
+</div>

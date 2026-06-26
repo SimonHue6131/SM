@@ -1,0 +1,98 @@
+﻿@model NotifyForAdmin
+@for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+<style>
+
+.admin_menu {
+        width: 1000px;
+        background-color: white;
+        margin: auto;
+        grid-template-columns: auto auto auto;
+        justify-content: center;
+        grid-gap: 50px;
+        padding: 10px;
+}
+
+#edit-part {
+    width: 550px;
+    text-align: left;
+    margin-top: 30px;
+}
+
+.edit-barr {
+    width: 550px;
+    height: 35px;
+    padding-left: 10px;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#notification-clearbutton {
+    width: 10%;
+    background-color: white;
+    text-align:center;
+    margin-left: 20%;
+    padding: 10px;
+    border: groove 1px red;
+    border-radius: 25px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+ }
+
+#notification-clearbutton:hover {
+    background-color: red;
+    color: white;
+}
+
+
+</style>
+
+<a href="Hub" style="text-decoration: none;">
+    <div id="notification-clearbutton">
+        ← Back to menu
+    </div>
+</a>
+
+<div class="admin_menu">
+    <form class="form" method="post">
+
+        <div id="edit-part">
+            <label asp-for="UserID"></label>
+            <input asp-for="UserID" class="edit-barr">
+            <span asp-validation-for="UserID"></span>
+        </div>
+
+        <div id="edit-part">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="edit-barr">
+            <span asp-validation-for="Title"></span>
+        </div>
+
+        <div id="edit-part">
+            <label asp-for="ProfileImage"></label><br>
+                <span style="display: flex; font-size:20px; align-items:center; margin-top:10px">
+                Profile/
+                <input asp-for="ProfileImage" class="edit-barr" style="height:25px">
+                </span>
+            <p style="font-size: 16px; color: gray;">Upload the photo from profile directory, enter "NULL" to display nothing.</p>
+        </div>
+
+        <div id="edit-part">
+            <label asp-for="ContentImage"></label>
+            <input asp-for="ContentImage" class="edit-barr">
+            <span asp-validation-for="ContentImage"></span>
+        </div>
+
+        <div id="edit-part">
+            <label asp-for="Link"></label>
+            <input asp-for="Link" class="edit-barr">
+            <span asp-validation-for="Link"></span>
+        </div>
+
+        <input type="submit" id="follow-btn" value="Add notification" style="margin-top: 50px; width: 180px">
+    </form>
+</div>

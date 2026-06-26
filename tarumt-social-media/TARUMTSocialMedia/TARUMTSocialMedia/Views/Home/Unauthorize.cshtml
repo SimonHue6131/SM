@@ -1,0 +1,10 @@
+﻿@for (int i = 0; i <= 4; i++){<br>}
+
+<div id="profile_menu" style="text-align: center; border: none; font-size: 20px; padding:10px">
+    <img src="~/images/icon/lacie_stop.png" style="height:260px">
+    <h2 style="color:darkred">Your account has been banned</h2>
+    <p>Reason: <span style="font-weight: bold">@Model.Reason</span></p>
+    <p><span style="color:darkred">@(((DateTime)Model.StartDate).ToString("yyyy-MM-dd"))</span> to <span style="color:darkred">@((Model.EndDate == null)? "PERMANENTLY" : ((DateTime)Model.EndDate).ToString("yyyy-MM-dd"))</span></p>
+    
+    <button data-get="/Account/Logout" id="follow-btn"> Go back </button>
+</div>

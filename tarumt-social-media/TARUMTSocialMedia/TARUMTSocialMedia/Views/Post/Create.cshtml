@@ -1,0 +1,304 @@
+﻿@inject DB db;
+@inject Helper hp;
+@model CreatePostVM
+@{
+    var u = db.Users.FirstOrDefault(x => x.Email == User.Identity!.Name);
+}
+@for (int i = 0; i <= 5; i++)
+{
+    <br>
+}
+
+<style>
+    .center-post {
+        margin: auto;
+        background-color: white;
+    }
+
+    #po {
+        width: 550px;
+        font-size: 20px;
+        padding: 10px;
+        height: 240px;
+        border: solid 2px black;
+        resize: none;
+        font: 1em sans-serif;
+        margin-bottom: 50px;
+        margin-top: 20px;
+    }
+
+    #UploadBtn {
+        position: fixed;
+        cursor: pointer;
+        bottom: 50px;
+        left: 6%;
+        width: 90%;
+        height: 5%;
+        border: solid 1px white;
+        background-color: rgb(251, 74, 74);
+        font-weight: bold;
+        font-size: 20px;
+        color: white
+    }
+
+        #UploadBtn:hover {
+            background-color: white;
+            color: rgb(251, 74, 74);
+            border: solid 1px rgb(251, 74, 74);
+            ;
+        }
+
+    #Uploadfile {
+        cursor: pointer;
+        bottom: 100px;
+        padding: 10px;
+        width: 190px;
+        border: solid 1px white;
+        background-color: rgb(251, 74, 74);
+        font-weight: bold;
+        font-size: 20px;
+        color: white;
+        position: relative;
+        bottom: 20px;
+    }
+
+    #WC{
+        margin-top: -10px;
+        position:relative;
+        bottom: 90px
+    }
+
+    #upload-img1:hover,
+    #upload-img2:hover,
+    #upload-img3:hover,
+    #upload-img4:hover{
+        cursor: pointer;
+        filter: brightness(30%);
+        transition: filter 0.2s;
+    }
+
+    .i_nickname {
+        position: absolute;
+        top: 46px;
+        width: 70%;
+        display: none;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 5px;
+    }
+
+    .h_nickname:hover .i_nickname {
+        display: block;
+    }
+
+</style>
+
+<body>
+    <div class="center-post">
+        <form asp-action="Create" asp-controller="Post" method="post" enctype="multipart/form-data">
+            <div class="poster">
+                <img src="~/images/profile/@(u.PhotoURL)" id="createPost_image">
+                <div>
+                    <p class="poster-name">@(hp.DisplayNickname(u.Username))</p>
+                    <p class="poster-date">@DateTime.Now.ToString("dd/MM/yyyy")
+                </div>
+            </div>
+            <div>
+                <textarea asp-for="Info" id="po" placeholder="Say something...
+⌨ Press【 CTRL + / 】to enter random word."></textarea>
+                <div style="display: flex;">
+                    <label id="Uploadfile" for="Ephotos">
+                        Upload Media (0/4)
+                    </label>
+                    <div style="width: 360px; position: relative; bottom:20px; margin-left: 30px;">
+                        <span asp-validation-for="Imgs"></span>
+                        WARNING: Everytime upload will erase previous images, so please upload the preferred at once!
+                    </div>
+                    <input type="file" id="Ephotos" name=Imgs accept="image/*" multiple hidden>
+                </div>
+                <p id="WC">Word: 0</p>
+            </div>
+            <div class="postcontent">
+                <img id="upload-img1" onclick="deletePhoto(1)">
+                <img id="upload-img2" onclick="deletePhoto(2)">
+                <img id="upload-img3" onclick="deletePhoto(3)">
+                <img id="upload-img4" onclick="deletePhoto(4)">
+            </div>
+
+            <div id="white">
+                <div id="whiteoption" class="h_nickname">
+                    <p>Anomymous Post</p>
+                        <input asp-for="Anomymous" id="onoff" style="float:right" class="Anomymous_label">
+                        <label for="onoff"></label>
+
+                    <div class="i_nickname">
+                        <p>When enabled, Nobody <span style="color: goldenrod">(except admin)</span> will know the owner of this post, and won't even show on your profile.</p>
+                    </div>
+                </div>
+            </div>
+
+            <input type=submit id="UploadBtn" value="Upload!">
+        </form>
+    </div>
+</body>
+
+<script>
+    let UploadFileLabel = document.getElementById("Uploadfile") ;
+    let img1 = document.getElementById("upload-img1")
+    let img2 = document.getElementById("upload-img2")
+    let img3 = document.getElementById("upload-img3")
+    let img4 = document.getElementById("upload-img4")
+
+    document.getElementById("Ephotos").addEventListener("change", function(){
+        const max = 4;
+        let files = Array.from(this.files);
+
+        if(files.length > max){
+            for(let i = files.length; i > max; i--){
+                files.pop();
+            }
+        }
+
+        for (let i = 1; i <= max; i++) {
+            document.getElementById("upload-img" + i).src = "";
+        }
+
+        files.forEach((file, index) => {
+            const url = URL.createObjectURL(file);
+            const img = document.getElementById("upload-img" + (index + 1));
+            img.src = url;
+        });
+
+        if(files.length == 1){
+            img1.setAttribute("style", "width: 600px; object-fit:cover")
+            img2.setAttribute("style", "")
+            img3.setAttribute("style", "")
+            img4.setAttribute("style", "")
+        }
+
+        if(files.length > 1){
+            img1.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+            img2.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+            img3.setAttribute("style", "");
+            img4.setAttribute("style", "");
+        }
+
+        if(files.length > 2){
+            img3.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+            img4.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+        }
+
+        
+        UploadFileLabel.textContent = `Upload Media (${files.length}/4)`
+
+        console.log(files)
+    })
+
+    
+    let wc = document.getElementById("WC");
+    let po = document.getElementById("po");
+
+    document.getElementById("po").onkeydown = function(event){
+            if (event.ctrlKey && (event.key === "/")) {
+            event.preventDefault()
+            this.value += RandomWord();
+            updateCount();
+        }
+    };
+
+    function deletePhoto(n){
+        const input = document.getElementById("Ephotos");
+        let files = Array.from(input.files);
+        files.splice(n - 1, 1);
+
+        const dt = new DataTransfer();
+        files.forEach(file => dt.items.add(file));
+        input.files = dt.files;
+
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById("upload-img" + i).src = "";
+        }
+
+        files.forEach((file, index) => {
+            const url = URL.createObjectURL(file);
+            const img = document.getElementById("upload-img" + (index + 1));
+            img.src = url;
+        });
+
+        if(files.length == 1){
+            img1.setAttribute("style", "width: 600px; object-fit:cover")
+            img2.setAttribute("style", "")
+            img3.setAttribute("style", "")
+            img4.setAttribute("style", "")
+        }
+
+        if(files.length > 1){
+            img1.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+            img2.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+            img3.setAttribute("style", "");
+            img4.setAttribute("style", "");
+        }
+
+        if(files.length > 2){
+            img3.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+            img4.setAttribute("style", "width:300px; height:300px; object-fit:cover;");
+        }
+
+        UploadFileLabel.textContent = `Upload Media (${files.length}/4)`
+        console.log(files)
+    }
+
+    function RandomWord(){
+            let w = [ "Hello", "TARUMT", "Ridiculous", "disease", "cat", "dog",
+                      "gravity", "neutron", "quantum", "relativity", "photosynthesis",
+                     "mitochondria", "hypothesis", "thermodynamics", "Frieren", "Hatsune Miku",
+                     "antibody", "vaccine", "surgery", "diagnosis", "treatment",
+                     "algorithm", "encryption", "database", "network", "protocol",
+                     "compiler", "syntax", "variable", "function", "object", "iMac",
+                     "galaxy", "universe", "blackhole", "supernova", "@(u!.Username)",
+                     "molecule", "electron", "proton", "nucleus", "isotope", "Face", 
+                     "oxygen", "carbon", "nitrogen", "hydrogen", "plasma", "Window", "SUCK",
+                     "equation", "derivative", "integral", "calculus", "geometry", "Linux", "Long Live",
+                     "statistics", "probability", "distribution", "variance", "correlation",
+                     "cytoplasm", "chromosome", "nucleotide", "enzyme", "protein", "iħ∂ψ/∂t = Ĥψ",
+                     "hormone", "pathogen", "virus", "bacteria", "fungus", "Volcano eruption",
+                     "ecosystem", "Information Technology", "habitat", "evolution", "Heisenberg equation",
+                     "philosophy", "psychology", "sociology", "anthropology", "economics", "ƛ", "λ", "𝛌", "𝜆","𝝀","𝝺","𝞴",
+                     "literature", "poetry", "novel", "history", "geography", "Britain", "Lambda",
+                     "politics", "democracy", "ethics", "justice", "law", "Malaysia", "Blue shift",
+                     "theory", "experiment", "research", "analysis", "data", "Half-Life",
+                     "robotics", "artificial", "intelligence", "machine", "learning",
+                     "climate", "temperature", "volcano", "earthquake", "tsunami", "Information and communication technology (ICT)", "election"
+                    ];
+            return w[Math.floor(Math.random() * w.length)] + " ";
+           }
+
+    function updateCount() {
+        let text = po.value.trim();
+        let words = text.split(/\s+/).filter(word => word !== "");
+        wc.textContent = `Word Count: ${words.length}`;
+    }
+
+    po.addEventListener("input", updateCount);
+
+    document.querySelectorAll(".center-post").forEach(form => {
+        let checkbox = form.querySelector(".Anomymous_label");
+        let nameLabel = form.querySelector(".poster-name");
+        let realName = "@(hp.DisplayNickname(u.Username))";
+
+        let createPost_image = document.getElementById("createPost_image")
+
+        checkbox.addEventListener("change", function () {
+            if (this.checked) {
+                nameLabel.style.color = "gray";
+                nameLabel.textContent = "Anonymous";
+                createPost_image.style.display = "none";
+            } else {
+                nameLabel.style.color = "black";
+                nameLabel.textContent = realName;
+                createPost_image.style.display = "";
+            }
+        });
+    });
+
+</script>

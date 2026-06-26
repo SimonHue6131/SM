@@ -1,0 +1,162 @@
+﻿ <div id="blackout">
+    <div id="blackout-window">
+        <div id="blackout-contentbox">
+            
+        </div>
+        <button onclick="toggleBlackout()" class='closebtnpop' >Close</button>
+    </div>
+</div>
+
+<div id="alertBox">
+    <p id="alertMes"></p>
+</div>
+
+<script>
+    function toggleBlackout(content){
+        let blackout = document.getElementById("blackout")
+        let contextbox = document.getElementById("blackout-contentbox");
+
+       if(content){
+           contextbox.innerHTML = content
+       }
+
+        blackout.classList.toggle("active");
+    }
+
+    function WaitASec(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+        //1000 = 1sec
+    }
+
+    async function CallAlert(message) {
+        let AlertBox = document.getElementById("alertBox");
+        let AlertMes = document.getElementById("alertMes");
+
+        AlertMes.textContent = message;
+        AlertBox.style.display = "block";
+
+        await WaitASec(5000);
+
+        AlertMes.textContent = "";
+        AlertBox.style.display = "none";
+    }
+
+    async function ReportWindow(ContentType, ContentID, userId, targetUserId){
+        // newString = contentString.toString();
+
+        try{
+
+            let response = await fetch(`/Post/LoadReportWindow?ContentType=${ContentType}&ContentID=${ContentID}&UserId=${userId}&TargetUserId=${targetUserId}`);
+            let data = await response.text()
+
+            toggleBlackout(data)
+
+        } catch (err){
+            console.error(err);
+            toggleBlackout("Failed to load data")
+
+        }
+    }
+
+    async function loadUser(Id, loadType){
+        //GetFollowing = load list user that was followed by Userid
+        //GetFollower = load list user that was followed by Userid
+        //GetLike = load list user that liked the postID (UNDEVELOPMENT)
+
+        try {
+            let declare = "userID";
+
+            if(loadType == "GetLike"){
+                declare = "postID";
+            }
+
+            let response = await fetch(`/Account/${loadType}?&${declare}=${Id}`);
+            let data = await response.text();
+
+            toggleBlackout(data);
+        } catch (err){
+            console.error(err);
+            toggleBlackout("Failed to load data")
+        }
+    }
+
+    async function deletePost(PostID, postIDUser, CurrentUserID, CurrentUserRole){
+        // toggleBlackout();
+        if((postIDUser == CurrentUserID) || (CurrentUserRole == "1")){
+            try{
+                let response = await fetch(`/Post/DeletePost?PostID=${PostID}`, {method: 'POST'});
+
+                if(response.ok){
+                    console.log("Deleted");
+                }else {
+                console.error("Failed to delete. Status:", response.status);
+                }
+            }catch (err) {
+                console.error("Error deleting post:", err);
+            }
+
+            toggleBlackout();
+            toggleBlackout(`
+            <div style="text-align:center; align-content: center; height: 450px;">
+                    <p>Delete successfully.</p>
+            </div>
+            `);
+            
+            const postbox = document.getElementById(`postbox-${PostID}`);
+            postbox.style.display = 'none';
+
+        }else{
+            toggleBlackout();
+            toggleBlackout(`
+            <div style="text-align:center; align-content: center; height: 450px;">
+                    <h1 style="color:red; font-size:100px;">X</h1>
+                    <p>Failed to delete.</p>
+            </div>
+            `)
+            return;
+        }
+    }
+
+    async function deleteComment(CommentID) {
+        try {
+            let response = await fetch(`/Post/DeleteComment?CommentID=${CommentID}`, {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                let result = await response.json();
+                if (result.success) {
+                    toggleBlackout(`
+                        <div style="text-align:center; align-content: center; height: 450px;">
+                            <p>Delete successfully.</p>
+                        </div>
+                    `);
+
+                    const commentbox = document.getElementById(`commentbox-${CommentID}`);
+                    if (commentbox) commentbox.style.display = 'none';
+                } else {
+                    showDeleteError();
+                }
+            } else {
+                showDeleteError();
+            }
+        } catch (err) {
+            console.error("Error deleting comment:", err);
+            showDeleteError();
+        }
+    }
+
+    function showDeleteError() {
+        toggleBlackout(`
+            <div style="text-align:center; align-content: center; height: 450px;">
+                <h1 style="color:red; font-size:100px;">X</h1>
+                <p>Failed to delete comment.</p>
+            </div>
+        `);
+    }
+
+    function CloseReportWindow(){
+        toggleBlackout();
+        CallAlert("Report submitted!");
+    }
+</script>

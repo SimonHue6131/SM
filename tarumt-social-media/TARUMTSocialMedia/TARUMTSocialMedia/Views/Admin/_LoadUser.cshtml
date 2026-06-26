@@ -1,0 +1,100 @@
+﻿@model IEnumerable<User>
+
+<style>
+table{
+        width: 80%;
+        border: 1px solid black;
+        margin: auto;
+    }
+
+    th{
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: gray;
+    }
+
+    td{
+        text-align: center;
+        border-bottom: 1px solid black;
+    }
+
+    .Detail{
+        padding: 10px;
+        color:white;
+        background-color: goldenrod;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .Ban {
+        padding: 10px;
+        color: white;
+        background-color: darkred;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .search{
+        width: 100px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    .Submit{
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    input{
+        margin-left: 10px;
+    }
+
+</style>
+
+
+<table style="margin-top: 20px; border-collapse: collapse; width: 100%;">
+    <tr style="border: 1px solid black;">
+        <th>ID</th>
+        <th>Username</th>
+        <th>PhotoURL</th>
+        <th>Email</th>
+        <th>Date Joined</th>
+        <th>Action</th>
+    </tr>
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td style="background:white; height:40px" colspan="6">No users found for following result.</td>
+        </tr>
+    }
+
+    @foreach (var u in Model)
+    {
+        <tr style="border: 1px solid black;">
+            <td>@u.Id</td>
+            <td>@u.Username</td>
+            <td width="100px">
+                @if (!string.IsNullOrEmpty(u.PhotoURL))
+                {
+                    <img src="~/images/profile/@u.PhotoURL" alt="User Photo" width="100px" height="100px" />
+                }
+                else
+                {
+                    <span>No photo</span>
+                }
+            </td>
+            <td>@u.Email</td>
+            <td>@u.DateJoin.ToString("yyyy-MM-dd")</td>
+            <td>
+                <a href="DetailUser?userid=@u.Id" class="Detail">Detail</a>
+                <a href="/Account/Profile/@@@u.Username/@u.Id" class="Detail">View Profile</a>
+            </td>
+        </tr>
+    }
+</table>

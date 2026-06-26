@@ -1,0 +1,197 @@
+﻿@inject DB db
+@{
+    var hideNav = ViewBag.HideNavBar as bool? ?? false;
+    var email = User?.Identity?.Name;
+    var u = db.Users.FirstOrDefault(x => x.Email == email);
+
+    var noti = 0;
+    if (u != null)
+    {
+        noti = db.Notification.Count(x => x.UserId == u.Id && x.Read == 1);
+
+        // Check Ban
+        // var CheckBan = db.BanRecord.Any(b => b.UserId == u.Id && (b.EndDate == null || b.EndDate >= DateTime.Today));
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/images/favicon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/css/style.css" asp-append-version="true"> 
+    @* <link rel="stylesheet" href="/bundle.css"> *@
+    @RenderSection("head", false)
+    @RenderSection("Styles", false)
+
+</head>
+<body>
+    <header style="@(hideNav ? "display:none;" : "flex")">
+            <div>
+            <a href="/"><img src="~/images/logo.png"></a>
+            </div>
+
+            <form asp-controller="Home" asp-action="Searching" method="get">
+            <div id="search_ico">
+                <input type="text" id="searchbox" placeholder="Search something!" name=searchbox value="@ViewBag.searchDraft" style="height: 35px;">
+                <input type="submit" id="searchbutton" value="">
+            </div>
+            </form>
+
+            <div style="width: 100%;">
+
+                <!-- Profile image -->
+                <div id="pfp_ico">
+                <img src="~/images/profile/@(u?.PhotoURL)" style="width: 50px; height: 50px; ">
+
+                    <!-- Hoverable profile box -->
+                    <div id="profilebox">
+                        <div style="display: flex;">
+                            <span>
+                            <img id=pfp src="~/images/profile/@(u?.PhotoURL)" style="width: 90px; height: 90px;">
+                            </span>
+                            <div style="margin-top: -10px;">
+                            <h1 style="margin-left: 10px; width:180px; word-wrap: break-word; white-space: normal;">
+                                @(
+                                    u?.Username
+                                )
+                            </h1>
+                                <a style="margin-left: 15px;" href="/Account/Edit">
+                                    <span class="editpfp_icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M20.548 3.452a1.542 1.542 0 0 1 0 2.182l-7.636 7.636-3.273 1.091 1.091-3.273 7.636-7.636a1.542 1.542 0 0 1 2.182 0zM4 21h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-2 0v7H5V6h7a1 1 0 0 0 0-2H4a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1z" /></svg>
+                                    </span>
+
+                                    Edit Profile
+
+                                </a>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div>
+                        <a href="/Account/Profile/@@@(u?.Username)/@(u?.Id)">
+                                <div class=submenu>
+                                    <span class="submenu-icon">
+                                        <svg fil="black" width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.12 12.78C12.05 12.77 11.96 12.77 11.88 12.78C10.12 12.72 8.71997 11.28 8.71997 9.50998C8.71997 7.69998 10.18 6.22998 12 6.22998C13.81 6.22998 15.28 7.69998 15.28 9.50998C15.27 11.28 13.88 12.72 12.12 12.78Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M18.74 19.3801C16.96 21.0101 14.6 22.0001 12 22.0001C9.40001 22.0001 7.04001 21.0101 5.26001 19.3801C5.36001 18.4401 5.96001 17.5201 7.03001 16.8001C9.77001 14.9801 14.25 14.9801 16.97 16.8001C18.04 17.5201 18.64 18.4401 18.74 19.3801Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="submenu-name">View your profile</span>
+                                    <span class=submenu-arrow>></span>
+                                </div>
+                            </a>
+                        </a>
+
+                        <a href="/Home/Blackjack">
+                            <div class=submenu>
+                                <span class="submenu-icon">
+                                    <svg width="35px" height="35px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M150.156 82.406c-1.843.092-3.663.446-5.344 1.063L41.094 121.53c-4.483 1.645-8.493 5.357-10.5 9.69-2.007 4.33-2.238 9.798-.594 14.28l66.72 181.875c1.643 4.482 5.354 8.524 9.686 10.53 4.332 2.008 9.8 2.24 14.28.595l103.72-38.063c4.483-1.644 8.493-5.355 10.5-9.687l.03-.063c1.982-4.322 2.2-9.757.564-14.218L168.78 94.593c-1.635-4.46-5.318-8.484-9.624-10.5l-.062-.03c-2.166-1.005-4.623-1.556-7.094-1.658-.618-.025-1.23-.03-1.844 0zM189.22 96.03l63.843 174c3.41 9.3 2.975 19.61-1.188 28.595-4.163 8.986-11.734 15.965-21.03 19.375l-27.44 10.063 60 2.78c4.77.223 9.91-1.66 13.44-4.874 3.528-3.217 5.87-8.17 6.092-12.94l9-193.5c.222-4.768-1.628-9.938-4.843-13.468-3.216-3.53-8.168-5.87-12.938-6.093l-84.937-3.94zm121 33.25l-8.626 184.626c-.46 9.893-4.836 19.237-12.156 25.906-7.32 6.67-17.014 10.148-26.907 9.688l-26.06-1.22 69.374 23.095c4.53 1.507 10.012 1.107 14.28-1.03 4.27-2.14 7.838-6.283 9.345-10.814l61.155-183.81c1.507-4.532 1.107-10.013-1.03-14.282-2.14-4.27-6.283-7.87-10.814-9.375l-68.56-22.782zm-205.064 18.345c24.458 24.936 68.02 17.74 80.75 45.53 11.875 25.927-14.51 46.006-37.97 38.407l17 30.782-18.78 6.906-10.937-31.688c-10.39 22.624-43.053 23.746-54.157-.53-13.53-29.577 24.02-54.2 24.093-89.407zm301.438 39.22L347.22 365.437c-3.127 9.397-9.865 17.19-18.72 21.625l-.094.03c-8.834 4.396-19.07 5.116-28.437 2l-20.376-6.78 43.312 37.03c3.63 3.102 8.865 4.78 13.625 4.407 4.76-.374 9.618-2.84 12.72-6.47l125.875-147.31c3.102-3.63 4.78-8.835 4.406-13.595-.372-4.76-2.87-9.648-6.5-12.75l-66.436-56.78z" />
+                                    </svg>
+                                </span>
+                                <span class="submenu-name">Blackjack</span>
+                                <span class=submenu-arrow>></span>
+                            </div>
+                        </a>
+                        </a>
+
+                        @if (User.IsInRole("1"))
+                        {
+                            <a href="/Admin/hub">
+                                <div class=submenu-admin>
+                                    <span class="submenu-admin-icon">
+                                    <svg width="35px" height="35px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M 27.9883 51.6719 C 28.3633 51.6719 28.9726 51.5313 29.5821 51.2031 C 42.8945 43.7266 47.4883 40.5625 47.4883 32.0078 L 47.4883 14.0781 C 47.4883 11.6172 46.4101 10.8438 44.4414 10.0000 C 41.6758 8.8516 32.7226 5.6406 29.9570 4.6797 C 29.3242 4.4687 28.6680 4.3281 27.9883 4.3281 C 27.3321 4.3281 26.6758 4.5156 26.0430 4.6797 C 23.2774 5.5234 14.3242 8.8750 11.5586 10.0000 C 9.5899 10.8203 8.5117 11.6172 8.5117 14.0781 L 8.5117 32.0078 C 8.5117 40.5625 13.1289 43.7031 26.4180 51.2031 C 27.0274 51.5313 27.6133 51.6719 27.9883 51.6719 Z M 27.9883 47.4063 L 27.9883 8.0781 C 28.2695 8.0781 28.5508 8.1484 28.9258 8.2891 C 32.5352 9.5781 39.3321 12.1797 42.9648 13.4219 C 43.5977 13.6562 43.7617 13.9844 43.7617 14.7813 L 43.7617 31.1406 C 43.7617 38.3594 40.2695 40.2578 29.4648 46.8438 C 28.7617 47.2656 28.3633 47.4063 27.9883 47.4063 Z"/></svg>
+                                    </span>
+                                    <span class="submenu-admin-name">Administator Controller Room</span>
+                                    <span class=submenu-admin-arrow>></span>
+                                </div>
+                            </a>
+                        }
+
+                        <a href="/Account/Logout">
+                                <div class=submenu-logout>
+                                    <span class="submenu-logout-icon">
+                                        <svg height="35px" width="35px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                             viewBox="0 0 320.002 320.002" xml:space="preserve">
+                                        <g id="XMLID_6_">
+                                        <path id="XMLID_7_" d="M51.213,175.001h173.785c8.284,0,15-6.716,15-15c0-8.284-6.716-15-15-15H51.213l19.394-19.394
+                                                            c5.858-5.858,5.858-15.355,0-21.213c-5.857-5.858-15.355-5.858-21.213,0L4.396,149.393c-0.351,0.351-0.683,0.719-0.997,1.103
+                                                            c-0.137,0.167-0.256,0.344-0.385,0.515c-0.165,0.22-0.335,0.435-0.488,0.664c-0.14,0.209-0.261,0.426-0.389,0.64
+                                                            c-0.123,0.206-0.252,0.407-0.365,0.619c-0.118,0.22-0.217,0.446-0.323,0.67c-0.104,0.219-0.213,0.435-0.306,0.659
+                                                            c-0.09,0.219-0.164,0.442-0.243,0.664c-0.087,0.24-0.179,0.477-0.253,0.722c-0.067,0.222-0.116,0.447-0.172,0.672
+                                                            c-0.063,0.249-0.133,0.497-0.183,0.751c-0.051,0.259-0.082,0.521-0.119,0.782c-0.032,0.223-0.075,0.443-0.097,0.669
+                                                            c-0.048,0.484-0.073,0.971-0.074,1.457c0,0.007-0.001,0.015-0.001,0.022c0,0.007,0.001,0.015,0.001,0.022
+                                                            c0.001,0.487,0.026,0.973,0.074,1.458c0.022,0.223,0.064,0.44,0.095,0.661c0.038,0.264,0.069,0.528,0.121,0.79
+                                                            c0.05,0.252,0.119,0.496,0.182,0.743c0.057,0.227,0.107,0.456,0.175,0.681c0.073,0.241,0.164,0.474,0.248,0.71
+                                                            c0.081,0.226,0.155,0.453,0.247,0.675c0.091,0.22,0.198,0.431,0.3,0.646c0.108,0.229,0.21,0.46,0.33,0.685
+                                                            c0.11,0.205,0.235,0.4,0.354,0.599c0.131,0.221,0.256,0.444,0.4,0.659c0.146,0.219,0.309,0.424,0.466,0.635
+                                                            c0.136,0.181,0.262,0.368,0.407,0.544c0.299,0.364,0.616,0.713,0.947,1.048c0.016,0.016,0.029,0.034,0.045,0.05l45,45.001
+                                                            c2.93,2.929,6.768,4.394,10.607,4.394c3.838-0.001,7.678-1.465,10.606-4.393c5.858-5.858,5.858-15.355,0.001-21.213L51.213,175.001
+                                                            z" />
+                                        <path id="XMLID_8_" d="M305.002,25h-190c-8.284,0-15,6.716-15,15v60c0,8.284,6.716,15,15,15s15-6.716,15-15V55h160v210.001h-160
+                                                            v-45.001c0-8.284-6.716-15-15-15s-15,6.716-15,15v60.001c0,8.284,6.716,15,15,15h190c8.284,0,15-6.716,15-15V40
+                                                            C320.002,31.716,313.286,25,305.002,25z" />
+                                                    </g>
+                                                    </svg>
+                                    </span>
+                                    <span class="submenu-logout-name">Log out</span>
+                                    <span class=submenu-logout-arrow>></span>
+                                </div>
+                            </a>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification -->
+                <a href="/Home/Notification">
+                <div id="bell_ico" style="display: inline;">
+                    <div class="bellicon">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24">
+                            <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z" />
+                        </svg>
+                    </div>
+                    <p class="noti-interact">&nbsp;</p>
+                    @if(noti != 0){
+                    <div class="noti-count">
+                        <p style="position: relative; top:5px">@noti</p>
+                    </div>
+                    }
+                </div>
+                </a>
+
+                <!-- Upload content -->
+                <a href="/Post/Create">
+                <div id="upload_ico">
+                    <div class="upload_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24"><path d="M20.548 3.452a1.542 1.542 0 0 1 0 2.182l-7.636 7.636-3.273 1.091 1.091-3.273 7.636-7.636a1.542 1.542 0 0 1 2.182 0zM4 21h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-2 0v7H5V6h7a1 1 0 0 0 0-2H4a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1z" /></svg>
+                    </div>
+                    <p class="upload-interact">&nbsp;</p>
+                </div>
+                </a>
+
+            </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+ <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/jquery.validate.unobtrusive.min.js"></script>
+<script src="/js/app.js"></script>
+ @* <script src="/bundle.js"></script> *@
+</body>
+</html>
+    
+
+
+

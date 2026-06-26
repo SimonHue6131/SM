@@ -1,0 +1,74 @@
+﻿@model List<User>
+
+@if (Model.Count() == 0)
+{
+    <div id="profile_menu" style="text-align:center">
+        <p>No users found on following searchbox</p>
+    </div>
+}
+else
+{
+    <div id="userbox-container">
+        @foreach (var user in Model)
+        {
+
+            <div class="userbox" id="userbox-@user.Id">
+                @Html.Partial("_FollowUserBox", user)
+            </div>
+
+        }
+    </div>
+}
+
+
+
+@* @model User
+@inject DB db
+
+@{
+    var currentUser = db.Users.FirstOrDefault(u => u.Email == User.Identity!.Name);
+    bool follow = db.Follows.Any(f => f.UserId == currentUser.Id && f.FollowedUserId == Model.Id);
+}
+
+<div class="userbox" id="userbox-@Model.Id">
+    <img id="userbox-pfp" src="~/images/profile/@Model.PhotoURL" />
+    <span id="userbox-detail">
+        @Model.Id
+        <span id="userbox-name">@Model.Username</span>
+        <br />
+        <span id="userbox-follower-friend">
+            @(Model.Detail?.FollowerCount ?? 0) Followers |
+            @(Model.Detail?.FollowingCount ?? 0) Following
+        </span>
+        <br />
+        <p id="userbox-bio">@Model.Detail?.Bio</p>
+    </span>
+
+    <span>
+    @if (Model.Id != currentUser.Id)
+    {
+        if (follow)
+        {
+            <form method="post"
+                  asp-action="UnfollowUser"
+                  asp-controller="Account"
+                  data-ajax="true"
+                  data-ajax-update="#target">
+                <input type="hidden" name="targetID" value="@Model.Id" />
+                <button type="submit" id="follow-btn">Followed</button>
+            </form>
+        }
+        else
+        {
+            <form method="post"
+                  asp-action="FollowUser"
+                  asp-controller="Account"
+                  data-ajax="true"
+                  data-ajax-update="#target">
+                <input type="hidden" name="targetID" value="@Model.Id" />
+                <button type="submit" id="follow-btn">Follow</button>
+            </form>
+        }
+    }
+    </span>
+</div> *@

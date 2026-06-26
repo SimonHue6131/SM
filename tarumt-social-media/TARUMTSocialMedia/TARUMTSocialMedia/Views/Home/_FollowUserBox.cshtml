@@ -1,0 +1,52 @@
+﻿@model User
+@inject DB db
+
+@{
+    var currentUser = db.Users.FirstOrDefault(u => u.Email == User.Identity!.Name);
+    bool follow = db.Follows.Any(x => x.UserId == currentUser!.Id && x.FollowedUserId == Model.Id);
+}
+<img id="userbox-pfp" src="~/images/profile/@Model.PhotoURL" />
+<a href="/Account/Profile/@@@Model.Username/@Model.Id" class="clear-link">
+<span id="userbox-detail">
+    <span id="userbox-name">@Model.Username
+        @if (Model.Role == "1")
+        {
+            <svg width="40" height="30" viewBox="0 0 24 24">
+                <path fill="goldenrod" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5Zm0 3.9a3 3 0 1 1-3 3a3 3 0 0 1 3-3Zm0 7.9c2 0 6 1.09 6 3.08a7.2 7.2 0 0 1-12 0c0-1.99 4-3.08 6-3.08Z"></path>
+        </svg>
+        }
+    </span>
+    <br />
+    <span id="userbox-follower-friend">
+        @(Model.Detail?.FollowerCount ?? 0) Followers |
+        @(Model.Detail?.FollowingCount ?? 0) Following
+    </span>
+    <br />
+    <p id="userbox-bio">@Model.Detail?.Bio</p>
+</span>
+</a>
+
+@if (currentUser.Id == Model.Id)
+{
+    
+}
+else if(follow){
+    <form method="post"
+          asp-action="UnfollowUser"
+          asp-controller="Home"
+          data-ajax="true"
+          data-ajax-update="#userbox-@Model.Id">
+        <input type="hidden" name="targetID" value="@Model.Id" />
+        <button type="submit" id="follow-btn">Followed</button>
+    </form>
+} else
+{
+    <form method="post"
+          asp-action="FollowUser"
+          asp-controller="Home"
+          data-ajax="true"
+          data-ajax-update="#userbox-@Model.Id">
+        <input type="hidden" name="targetID" value="@Model.Id" />
+        <button type="submit" id="follow-btn">Follow</button>
+    </form>
+}

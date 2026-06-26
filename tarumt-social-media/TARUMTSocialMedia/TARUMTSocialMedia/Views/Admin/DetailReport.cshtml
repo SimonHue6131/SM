@@ -1,0 +1,140 @@
+﻿@model Report
+@inject DB db
+@inject Helper helper
+
+@for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+
+@{
+    var user = db.Users.FirstOrDefault(u => u.Id == Model.ReportedBy);
+    var post = db.Post.FirstOrDefault(u => u.Id == Model.ContentID);
+    var comment = db.Comments.FirstOrDefault(u => u.Id == Model.ContentID);
+
+    
+}
+<style>
+    table {
+        width: 40%;
+        border: 1px solid black;
+        margin: auto;
+        background-color: white;
+    }
+
+    th {
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: gray;
+    }
+
+    td {
+        text-align: left;
+        height: 30px;
+        border-bottom: 1px solid black;
+    }
+
+    .Detail {
+        padding: 10px;
+        color: white;
+        background-color: goldenrod;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .Ban {
+        padding: 10px;
+        color: white;
+        background-color: darkred;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .search {
+        width: 100px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    .Submit {
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    input {
+        margin-left: 10px;
+    }
+</style>
+
+<table>
+    <tr>
+        <td>Comment ID</td>
+        <td>@Model.Id</td>
+    </tr>
+
+    <tr>
+        <td>Reason</td>
+        <td>@Model.Reason</td>
+    </tr>
+
+    <tr>
+        <td>Content type</td>
+        <td>@Model.ContentType</td>
+    </tr>
+
+    <tr>
+        <td>Additional infomation</td>
+        <td>@Model.Info</td>
+    </tr>
+
+    <tr>
+        <td>The content</td>
+        <td>@Model.ContentString</td>
+    </tr>
+
+    <tr>
+        <td>Content ID</td>
+        <td>@Model.ContentID</td>
+    </tr>
+
+
+    <tr>
+        <td style="width:50%">Report Date</td>
+        <td>@Model.DateReport.ToString("yyyy-MM-dd")</td>
+    </tr>
+
+    <tr>
+        <td>User</td>
+        <td><a href="/Account/Profile/@@@user.Username/@user.Id">@user.Username (@user.Id)</a></td>
+    </tr>
+
+    @if(Model.ContentType == "post"){
+        <tr>
+            <td>Post</td>
+            <td><a href="/Post/Content?PostID=@(Model.ContentID)">@Model.ContentID</a></td>
+        </tr>
+
+        <tr>
+            <td>Status</td>
+            <td>@(post != null ? "Active" : "Removed")</td>
+        </tr>
+    } else
+    {
+        <tr>
+            <td>Comment</td>
+            <td><a href="/Post/Content?PostID=@(comment.PostId)">@post.Id</a></td>
+        </tr>
+
+        <tr>
+            <td>Status</td>
+            <td>@(comment != null ? "Active" : "Removed")</td>
+        </tr>
+    }
+    
+
+</table>

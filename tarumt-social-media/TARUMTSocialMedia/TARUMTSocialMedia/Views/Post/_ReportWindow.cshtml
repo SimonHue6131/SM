@@ -1,0 +1,35 @@
+﻿@model ReportVM
+
+<div style="text-align:center; justify-items: center; height: 450px; ">
+    <form asp-action="SubmitReport" asp-controller="Post" method="Post" data-ajax="true">
+    <div style="text-align: left; width: 550px;">
+        <label asp-for="Reason"></label>
+        <select asp-for=Reason class="form-cc">
+            <option value="Inappropriate">Inappropriate</option>
+            <option value="ForFun">For Fun</option>
+        </select>
+    </div>
+
+    <div style="text-align: left; width: 550px; margin-top: 50px;">
+        <label asp-for="Info"></label>
+        <textarea asp-for="Info" class="text-cc"></textarea>
+    </div>
+
+    <input type="hidden" asp-for="ContentType" />
+    <input type="hidden" asp-for="ContentID" />
+    <input type="hidden" asp-for="ContentString" />
+    <input type="hidden" asp-for="UserID" />
+    <input type="hidden" asp-for="TargetUserID" />
+
+
+    <button class="closebtnpop" type="submit" style="background-color: red; position:relative; top:10px; width: 120px"
+        onclick="CloseReportWindow()">Report</button>
+    </form>
+</div>
+
+@* <script>
+    CloseReportWindow(){
+        toggleBlackout();
+        CallAlert("Report submitted!");
+    }
+</script> *@

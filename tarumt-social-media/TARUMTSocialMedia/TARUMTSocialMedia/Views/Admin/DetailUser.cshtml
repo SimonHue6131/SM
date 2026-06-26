@@ -1,0 +1,156 @@
+﻿@model User
+@inject DB db
+@inject Helper helper
+
+@for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+<style>
+    table {
+        width: 40%;
+        border: 1px solid black;
+        margin: auto;
+        background-color: white;
+    }
+
+    th {
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: gray;
+    }
+
+    td {
+        text-align: left;
+        height: 30px;
+        border-bottom: 1px solid black;
+    }
+
+    .Detail {
+        padding: 10px;
+        color: white;
+        background-color: goldenrod;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .green{
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .Ban {
+        padding: 10px;
+        color: white;
+        background-color: darkred;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .search {
+        width: 100px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    .Submit {
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    input {
+        margin-left: 10px;
+    }
+</style>
+
+<table>
+    <tr>
+        <td>User ID</td>
+        <td>@Model.Id</td>
+    </tr>
+
+    <tr>
+        <td>Profile Image</td>
+        <td><img src="~/images/profile/@Model.PhotoURL" alt="User Photo" width="100px" height=100px" /></td>
+    </tr>
+
+    <tr>
+        <td>Username</td>
+        <td>@Model.Username</td>
+    </tr>
+
+    <tr>
+        <td>Nickname</td>
+        <td>@Model.Detail.Nickname</td>
+    </tr>
+
+    <tr>
+        <td>Gender</td>
+        <td>@Model.Gender</td>
+    </tr>
+
+    <tr>
+        <td>Date join</td>
+        <td>@Model.DateJoin</td>
+    </tr>
+
+    <tr>
+        <td>Role</td>
+        @* <td>@(Model.Role == "1" ? "Admin" : "Member")</td> *@
+        <td style=" height: 100px">
+            @if(Model.Role == "1")
+            {
+                @Html.Raw("Admin");
+                <form asp-action="DemoteAdmin" asp-controller="Admin" method="post" style="display:flex; align-items:center;">
+                    <input name="UserID" value="@Model.Id" hidden>
+                    <button class="Ban" type="submit">Demote to member</button>
+                </form>
+            } else
+            {
+                @Html.Raw("Member");
+                <form asp-action="PromoteAdmin" asp-controller="Admin" method="post" style="display:flex; align-items:center;">
+                    <input name="UserID" value="@Model.Id" hidden>
+                    <button class="green" type="submit">Promote to admin</button>
+                </form>
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <td>Banner</td>
+        <td><img src="/images/banner/@Model.Detail.BannerURL" width="500px" height=150px" /></td>
+    </tr>
+
+    <tr>
+        <td>Bio</td>
+        <td>@(Model.Detail.Bio)</td>
+    </tr>
+
+    <tr>
+        <td>Action</td>
+        <td>
+            <form style="display:flex; gap: 10px; align-items:center;" asp-action="BanUser" method="post" asp-controller="Admin">
+            
+                <input type="hidden" name="UserId" value="@Model.Id" />
+
+                <label>Days:</label>
+                <input type="number" name="DayRange" min="1" style="width:150px;" placeholder="null = Permanent" />
+                <input type="text" name="Reason" placeholder="Reason for ban" style="width:200px;" />
+
+                <button class="Ban" type="submit">Ban</button>
+
+                <a href="/Account/Profile/@@@Model.Username/@Model.Id" class="Detail">View Profile</a>
+        </form>
+
+        </td>
+    </tr>
+
+</table>

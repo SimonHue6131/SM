@@ -1,0 +1,247 @@
+﻿@model EditVM;
+@section Styles{
+<style>
+    
+
+    #edit-part{
+        width: 550px; 
+        text-align: left;
+        margin-top: 30px;
+    }
+
+    #edit-barr{
+        width: 550px;
+        height: 35px;
+        padding-left: 10px;
+        font-size: 20px;
+    }
+
+    #ttexxt{
+        width:550px;
+        font-size: 20px;
+        padding: 10px;
+        height: 240px;
+        border: solid 1px black;
+        resize: none;
+        font: 1em sans-serif;
+    }
+
+    select {
+        height: 35px;
+        width: 550px; 
+        padding-left: 10px;
+        font-size: 20px;
+    }
+
+    #inputf{
+        display: none;
+    }
+
+    .file-upload{
+        /* background-color: blue; */
+        position:relative;
+        display: inline-block;
+        top: -300px; 
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .file-upload:hover{
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    
+    .edit_icon1{
+        transition: fill 0.3s;
+        fill: rgba(255, 255, 255, 0);
+        position: relative;
+        top:100px;
+    }
+
+    .edit_icon2{
+        transition: fill 0.3s;
+        fill: rgba(255, 255, 255, 0);
+        position: relative;
+        top:50px;
+    }
+    
+    .file-upload:hover .edit_icon1{
+        fill: rgba(255, 255, 255, 1);
+    }
+
+    #BannerPreview{
+        /* background-color: blue; */
+        width: 100%;
+        height: 100%;
+        /* margin-top: -300px; */
+        object-fit: cover;
+    }
+
+    #profile_image_container{
+        justify-items: center;
+    }
+
+    .profile-upload{
+        border-radius: 50%;
+        width:150px;
+        height: 150px;
+        position: relative;
+        right: 70px;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    .profile-upload:hover{
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-upload:hover .edit_icon2{
+        fill: rgba(255, 255, 255, 1);
+    }
+
+    #profile_image{
+        position: relative;
+        left: 80px;
+    }
+
+    #save{
+        margin-top: 30px;
+        cursor: pointer;
+        border-radius: 8px;
+        width: 100px;
+        height: 30px;
+        font-size: 20px;
+        border: groove 3px rgb(243, 77, 110);
+        background-color: transparent;
+        color:rgb(243, 77, 110);
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    #save:hover{
+        background-color: rgb(251, 74, 74);
+        color:white
+    }
+</style>
+}
+<body>
+    <div id="profile_menu">
+        <form asp-controller="Account" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div id="profile_banner" style="background-image: url('/images/banner/@Model.BannerURL')">
+                <img id="BannerPreview">
+                <label for="inputf" class="file-upload">
+                    <svg class=edit_icon1 xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M20.548 3.452a1.542 1.542 0 0 1 0 2.182l-7.636 7.636-3.273 1.091 1.091-3.273 7.636-7.636a1.542 1.542 0 0 1 2.182 0zM4 21h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-2 0v7H5V6h7a1 1 0 0 0 0-2H4a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1z" /></svg>
+                </label>
+                <input type="file" id="inputf" accept="image/*" hidden asp-for="Banner">
+            </div>
+
+            <div id="profile_image_container">
+                <img id="profile_image" src="~/images/profile/@Model.PhotoURL">
+                <label for="inpute" class="profile-upload">
+                    <svg class=edit_icon2 xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M20.548 3.452a1.542 1.542 0 0 1 0 2.182l-7.636 7.636-3.273 1.091 1.091-3.273 7.636-7.636a1.542 1.542 0 0 1 2.182 0zM4 21h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-2 0v7H5V6h7a1 1 0 0 0 0-2H4a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1z" /></svg>
+                </label>
+                <input type="file" id="inpute" accept="image/*" hidden asp-for="Photo">
+            </div>
+
+            <div id="input" style=" justify-items: center;">
+                <div id="edit-part">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" id="edit-barr">
+                    <span asp-validation-for="Username"></span>
+                </div>
+
+                <div id="edit-part" >
+                    <label asp-for="Nickname"></label>
+                    <div style="display:flex; align-items:center">
+                    <input asp-for="Nickname" id="edit-barr" style="width: 450px;">
+                    <span asp-validation-for="Nickname"></span>
+
+                        <div id="ono" style="margin-left:20px; margin-bottom: 20px" class="h_nickname">
+                            <input asp-for="DisplayableNickname" id="onoff">
+                            <label for="onoff"></label>
+                            <div class="i_nickname">
+                                <p>When enabled, Your nickname will be shown on your posts and profile. Otherwise, your @@username will be displayed instead.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="edit-part">
+                    <label asp-for="Bio"></label>
+                    <textarea asp-for="Bio" id="ttexxt"></textarea>
+                    <span asp-validation-for="Bio"></span>
+                </div>
+
+                <div id="edit-part">
+                    <label asp-for="Gender"></label>
+                    <select asp-for="Gender" class="form-control">
+                        <option value="F">Female</option>
+                        <option value="M">Male</option>
+                    </select>
+                </div>
+                <br>
+
+                <hr style="width: 80%;">
+
+                @* <div id="edit-part">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" id="edit-barr" autofocus value="@(ViewBag.u.Email)">
+                <span asp-validation-for="Email"></span>
+            </div> *@
+
+                <div id="edit-part">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" id="edit-barr">
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <div id="edit-part">
+                    <label asp-for="Confirm"></label>
+                    <input asp-for="Confirm" id="edit-barr">
+                    <span asp-validation-for="Confirm"></span>
+                </div>
+                <section>
+                    <button type="submit" id="follow-btn">Save</button>
+
+                </section>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+<script>
+    const inputFile = document.getElementById("inputf");
+    const inputProfileFile = document.getElementById("inpute");
+    const preview = document.getElementById("BannerPreview");
+    const Profilepreview = document.getElementById("profile_image");
+
+    inputFile.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    inputProfileFile.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                Profilepreview.src = e.target.result;
+                Profilepreview.style.display = "block";
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

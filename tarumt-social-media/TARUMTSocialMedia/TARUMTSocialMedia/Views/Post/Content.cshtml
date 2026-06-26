@@ -1,0 +1,61 @@
+﻿@inject DB db
+@inject Helper hp
+@await Html.PartialAsync("_blackout");
+
+@for (int i = 0; i <= 5; i++)
+{
+    <br>
+}
+
+@{
+    var u = db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
+}
+
+<div id="center-main" >
+    <div class="center-post" id="postbox-@Model.Id">
+        @Html.Partial("_LoadPost")
+    </div>
+
+    <div id="comment-section">
+            <h3>Comment Section</h3>
+
+            <div class="center-comment" style="background-color: unset; border: 1px solid gray;">
+                <img src="~/images/profile/@u.PhotoURL">
+                <div class="commenterd">
+                    <p class="commenter-name">@u.Username</p>
+                    <form asp-action="CreateComment" asp-controller="Post">
+                    <input name="PostID" value="@Model.Id" hidden>
+                    <input name="CommenterEmail" value="@User.Identity.Name" hidden>
+                    <textarea class="commenter-textarea" id="commenter-textarea" name="CommentContent" placeholder="Say something about this post..."></textarea>
+                    <button type="submit" id="comment-btn" style="display:none">Comment!</button>
+                    </form>
+                </div>
+            </div>
+
+        @{
+            int PostID = Model.Id;
+            var commentsection = db.Comments.Where(x => x.Post.Id == PostID).OrderByDescending(x => x.DateComment).ToList();
+        }
+
+        @if(commentsection.Count() != 0){
+            @foreach(var m in commentsection){
+                @Html.Partial("_LoadComment", m);
+            }
+        }
+
+    </div>
+</div>
+
+<script>
+    let textarea = document.getElementById("commenter-textarea");
+    let commentbutton = document.getElementById("comment-btn");
+
+        textarea.addEventListener("input", () => {
+        if (textarea.value.trim().length > 0) {
+            commentbutton.style.display = "block"; 
+        } else {
+            commentbutton.style.display = "none"; 
+        }
+    });
+
+</script>

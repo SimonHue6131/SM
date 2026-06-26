@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Comment>
+
+<style>
+    table {
+        width: 80%;
+        border: 1px solid black;
+        margin: auto;
+    }
+
+    th {
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: gray;
+    }
+
+    td {
+        text-align: center;
+        border-bottom: 1px solid black;
+    }
+
+    .Detail {
+        padding: 10px;
+        color: white;
+        background-color: goldenrod;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .Ban {
+        padding: 10px;
+        color: white;
+        background-color: darkred;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .search {
+        width: 100px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    .Submit {
+        padding: 10px;
+        color: white;
+        background-color: forestgreen;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    input {
+        margin-left: 10px;
+    }
+
+</style>
+
+<table style="margin-top: 20px">
+    <tr style="border: 1px solid black;">
+        <th>ID</th>
+        <th>Commenter</th>
+        <th>CommenterID</th>
+        <th>Post</th>
+        <th>Content</th>
+        <th>Date Commented</th>
+        <th>Action</th>
+    </tr>
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td style="background:white; height:40px" colspan="7">No post found for following result.</td>
+        </tr>
+    }
+
+
+    @foreach (var u in Model)
+    {
+        <tr style="height: 50px">
+            <td>@u.Id</td>
+            <td>@u.User.Username</td>
+            <td>@u.UserId</td>
+            <td>@u.PostId</td>
+            <td style="width:200px;">@u.Content</td>
+            <td>@u.DateComment.ToString("yyyy-MM-dd")</td>
+            <td>
+                <a href="Detailcomment?commentid=@u.Id" class="Detail">Detail</a>
+                <a href="/Post/Content?PostID=@u.PostId" class="Detail">View</a>
+
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,220 @@
+﻿@inject DB dB
+@inject Helper hp
+
+@for (int i = 0; i <= 5; i++)
+{
+    <br>
+}
+
+<div style="display: none;">
+    <div id="card">
+        <div class="card_symbol"></div>
+    </div>
+</div>
+
+<div id="cardContainer_enemy"></div>
+<div id="cardContainer"></div>
+
+<div style="width: 90%; padding: 30px;">
+    <div>
+        <div style="align-items: center; position: relative; bottom: 200px;">
+            <h1>You have:</h1>
+            <p style="font-size: 2em;" id="NumberA"></p>
+        </div>
+
+        <div style="align-items: center; text-align: right; position: relative; bottom: 500px;">
+            <h1>Dealer (A.I) have:</h1>
+            <p style="font-size: 2em;" id="NumberB"></p>
+        </div>
+    </div>
+    <!-- <button onclick="bj_fast_21_result()">Enemy hit 21</button>        -->
+    <!-- <button onclick="bj_enemyhit()">Enemy Hit</button>        -->
+</div>
+
+<h1 id="gameOverScreen">You lose</h1>
+<h1 id="gameDrawScreen">Tie!</h1>
+<h1 id="gameWonScreen">You won</h1>
+
+<div style="margin: auto; text-align: center; position:fixed; width: 100%; bottom:10%;">
+    <button onclick="bj_start()" id="startBtn" class="follow-btn">Start</button>
+    <button onclick="bj_spin()" id="callBtn"   class="follow-btn" style="display: none">Hit</button>
+    <button onclick="bj_stay()" id="stayBtn"   class="follow-btn" style="display: none">Stay</button>
+    <button onclick="bj_reset()" id="resetBtn" class="follow-btn" style="display: none">Reset</button>
+</div>
+
+<script>
+    function toggleBlackout(){
+        const blackout = document.getElementById("blackout")
+        blackout.classList.toggle("active");
+    }
+
+    let total = 0;
+    let enemy_total = 0;
+
+    function bj_start(){
+        let callBtn = document.getElementById("callBtn");
+        let StayBtn = document.getElementById("stayBtn");
+        let resetBtn = document.getElementById("resetBtn");
+        let startBtn = document.getElementById("startBtn");
+
+        resetBtn.style.display = "";
+        StayBtn.style.display = "";
+        callBtn.style.display = "";
+        startBtn.style.display = "None";
+        bj_reset();
+    }
+
+    function bj_spin(){
+        let card_sym = ['♣', '♦', '♥', '♠']
+        let rand = Math.floor(Math.random() * 10) + 1;
+        let rand2 = card_sym[Math.floor(Math.random() * card_sym.length)]
+
+        total += rand
+        bj_updateCard(rand , rand2);
+        bj_updateLabel();
+    }
+
+    function bj_reset(){
+        document.getElementById("cardContainer").innerHTML = "";
+        document.getElementById("cardContainer_enemy").innerHTML = "";
+        const gameOverScreen = document.getElementById("gameOverScreen");
+        let callBtn = document.getElementById("callBtn");
+        let StayBtn = document.getElementById("stayBtn");
+
+        gameOverScreen.style.display = "none"
+        gameDrawScreen.style.display = "none"
+        gameWonScreen.style.display = "none"
+        callBtn.style.display = ""
+        stayBtn.style.display = ""
+        total = 0
+        enemy_total = 0
+        bj_spin()
+        bj_spin()
+        bj_enemyhit()
+
+        bj_updateLabel()
+    }
+
+    function bj_updateLabel(){
+        let numberA = document.getElementById("NumberA")
+        let numberB = document.getElementById("NumberB")
+
+        numberA.textContent = total
+        numberB.textContent = enemy_total
+
+        if(total > 21){
+            bj_gameOver()
+        }
+    }
+
+    function bj_updateCard(x, y){
+        let Card = document.querySelector("#card")
+        let copy = Card.cloneNode(true);
+        console.log("x:", x, "y:", y);
+        copy.querySelector(".card_symbol").textContent = x + y
+
+        if(y == "♥" || y == "♦"){
+            copy.querySelector(".card_symbol").style.color = "red"
+        }
+
+        document.getElementById('cardContainer').appendChild(copy);
+    }
+
+    function bj_updateCard_enemy(x,y){
+        let Card = document.querySelector("#card")
+        let copy = Card.cloneNode(true);
+        console.log("x:", x, "y:", y);
+        copy.querySelector(".card_symbol").textContent = x + y
+
+        if(y == "♥" || y == "♦"){
+            copy.querySelector(".card_symbol").style.color = "red"
+        }
+
+        document.getElementById('cardContainer_enemy').appendChild(copy);
+    }
+
+    function bj_enemyhit(){
+        let card_sym = ['♣', '♦', '♥', '♠']
+        let rand = Math.floor(Math.random() * 10) + 1;
+        let rand2 = card_sym[Math.floor(Math.random() * card_sym.length)]
+
+        if(enemy_total<20){
+            enemy_total += rand
+            bj_updateCard_enemy(rand , rand2);
+            bj_updateLabel();
+            if(enemy_total > 21){
+                bj_gameWon()
+            }
+        }
+    }
+
+    function bj_stay(){
+        let turn
+        if(enemy_total <= 10){
+            turn = Math.floor(Math.random() * 3) + 1
+        }else if(enemy_total <=15){
+            turn = Math.floor(Math.random() * 2) + 1
+        }else{
+            turn = Math.floor(Math.random() * 1)
+        }
+        for(let i = 0; i<=turn; i++){
+            bj_enemyhit()
+        }
+        bj_result()
+    }
+
+    function bj_result(){
+        if(enemy_total == total){
+            bj_gameDraw()
+        }else if(enemy_total > total){
+            bj_gameOver()
+        }else{
+            bj_gameWon()
+        }
+    }
+
+    function bj_gameDraw(){
+        const gameDrawScreen = document.getElementById("gameDrawScreen")
+        let callBtn = document.getElementById("callBtn")
+        let StayBtn = document.getElementById("stayBtn")
+
+        if(enemy_total < 21){
+            gameDrawScreen.style.display = "block"
+            callBtn.style.display = "None"
+            stayBtn.style.display = "None"
+        }
+    }
+
+    function bj_gameWon(){
+        const gameWonScreen = document.getElementById("gameWonScreen")
+        let callBtn = document.getElementById("callBtn")
+        let StayBtn = document.getElementById("stayBtn")
+
+        gameWonScreen.style.display = "block"
+        callBtn.style.display = "None"
+        stayBtn.style.display = "None"
+    }
+
+    function bj_gameOver(){
+        const gameOverScreen = document.getElementById("gameOverScreen")
+        let callBtn = document.getElementById("callBtn")
+        let StayBtn = document.getElementById("stayBtn")
+
+        if(enemy_total<=21){
+            gameOverScreen.style.display = "block"
+            callBtn.style.display = "None"
+            stayBtn.style.display = "None"
+        }
+    }
+
+    function bj_fast_21_result(){
+        document.getElementById("cardContainer").innerHTML = "";
+        document.getElementById("cardContainer_enemy").innerHTML = "";
+        bj_updateCard_enemy(21,'♥')
+        enemy_total = 21
+        bj_updateLabel()
+
+        bj_result()
+    }
+</script>
+</html>

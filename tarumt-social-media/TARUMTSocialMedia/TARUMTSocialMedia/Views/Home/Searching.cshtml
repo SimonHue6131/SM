@@ -1,0 +1,65 @@
+﻿@inject DB db
+@inject Helper hp
+@await Html.PartialAsync("_blackout");
+
+@{
+    var currentUser = db.Users.FirstOrDefault(u => u.Email == User.Identity!.Name);
+}
+
+@for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+
+<form id="s_filter" data-ajax="true" data-ajax-update="#result-container" asp-controller="Post">
+    <input type="radio" class="search_filter_input" name="search_filter" value="show_post" id="show_post" checked>
+    <label for="show_post" class="search_filter_label" title="Post Only">Post</label>
+
+    <input type="radio" class="search_filter_input" name="search_filter" value="show_user" id="show_user">
+    <label for="show_user" class="search_filter_label" title="User Only">User</label>
+</form>
+
+<div id="result-container">
+    @{
+        @if ((List<Post>)ViewBag.up == null || !((List<Post>)ViewBag.up).Any())
+        {
+            <div id="profile_menu" style="text-align:center">
+                <p>No posts for following result.</p>
+            </div>
+        }
+        else
+        {
+            var posts = (List<Post>)ViewBag.up;
+            <div id="center-main">
+                @foreach (var post in posts)
+                {
+                    <div class="center-post" id="postbox-@post.Id">
+                        @Html.Partial("../Post/_LoadPost", post)
+                    </div>
+                }
+            </div>
+        }
+
+    }
+</div>
+
+<script>
+    document.querySelectorAll('input[name="search_filter"]').forEach(radio => {
+    radio.addEventListener('change', function () {
+        const form = document.getElementById('s_filter');
+        switch (this.value) {
+            case "show_post":
+                    form.action = "/Home/Search_Post?p=@ViewBag.searchDraft";
+                break;
+            case "show_user":
+                    console.log("Load USer")
+                    form.action = "/Home/Search_User?p=@ViewBag.searchDraft";
+                break;
+            default:
+                    form.action = "_Search_Post";
+                break;
+        }
+        $(form).submit();
+    });
+});
+</script>

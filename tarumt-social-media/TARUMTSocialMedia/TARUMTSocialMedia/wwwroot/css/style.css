@@ -1,0 +1,1419 @@
+﻿body {
+    margin: 0px;
+    font: 1em sans-serif;
+    background-color: rgb(255, 252, 220);
+}
+
+header {
+    display: flex;
+    height: 65px;
+    z-index: 100;
+    background-color: rgb(141, 34, 59);
+    width: 100%;
+    color: white;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    position: fixed;
+    top: 0;
+}
+
+    header a {
+        text-decoration: none;
+        color: white;
+    }
+
+    header img {
+        width: 240px;
+    }
+
+#search_ico {
+    display: flex;
+}
+
+.noti-interact {
+    width: 0%;
+    height: 4px;
+    position: relative;
+    right: 0px;
+    bottom: 10px;
+    background-color: goldenrod;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: width 0.4s;
+}
+
+.noti-count {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 11px;
+    position: relative;
+    left: 28px;
+    bottom: 80px;
+    background-color: red;
+}
+
+#pfp_ico img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    float: right;
+    margin-right: 50px;
+    margin-top: 10px;
+}
+
+#bell_ico {
+    margin-right: 50px;
+    margin-top: 10px;
+    float: right;
+    max-width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.bellicon {
+    fill: white;
+    transition: fill 0.4s;
+}
+
+#bell_ico:hover .noti-interact {
+    width: 100%;
+}
+
+#bell_ico:hover .bellicon {
+    fill: goldenrod;
+}
+
+#upload_ico {
+    margin-right: 50px;
+    margin-top: 10px;
+    float: right;
+    max-width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.upload-interact {
+    width: 0%;
+    height: 4px;
+    position: relative;
+    right: 0px;
+    bottom: 10px;
+    background-color: goldenrod;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: width 0.4s;
+}
+
+.upload_icon {
+    fill: white;
+    transition: fill 0.4s;
+}
+
+#upload_ico:hover .upload_icon {
+    fill: goldenrod;
+}
+
+#upload_ico:hover .upload-interact {
+    width: 100%;
+}
+
+#searchbox {
+    width: 400px;
+    margin-left: 100px;
+    margin-top: 10px;
+    height: 40px;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    border-style: solid;
+    border-color: aliceblue;
+    border-right: none;
+    padding-left: 10px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    transition: width 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+#searchbutton {
+    width: 100px !important;
+    height: 40px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    background-color: inherit;
+    border-left: 0px;
+    border-color: White;
+    border-style: solid;
+    background-image: url(../images/icon/magne.png);
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: pointer;
+}
+
+#searchbox:focus {
+    position: relative;
+    width: 700px;
+    /*    transform: translateX(-320px);*/
+    /* background-color: blue; */
+}
+
+    #searchbox:focus #searchbutton {
+        transform: translateX(-320px);
+    }
+
+/* ======================= Hoverable Profile Box =============*/
+#pfp_ico:hover #profilebox {
+    display: block;
+}
+
+#profilebox {
+    display: none;
+    float: right;
+    position: absolute;
+    right: 30px;
+    top: 65px;
+    z-index: 101;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    border: solid 2px black;
+    width: 320px;
+    padding: 20px;
+}
+
+#pfp_ico:hover #profilebox {
+    display: block;
+}
+
+#profilebox a {
+    color: cadetblue;
+}
+
+.editpfp_icon {
+    fill: cadetblue;
+    position: relative;
+    top: 3px;
+}
+
+.submenu {
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.4s;
+}
+
+.submenu-name {
+    font-size: 20px;
+    margin-left: 10px;
+    position: relative;
+    bottom: 10px;
+    color: rgb(44, 44, 44);
+}
+
+.submenu-arrow {
+    float: right;
+    font-size: 35px;
+    color: rgb(44, 44, 44);
+    transform: translateX(-10px);
+    transition: transform 0.5s;
+}
+
+.submenu:hover {
+    padding: 10px;
+    background-color: gainsboro;
+}
+
+    .submenu:hover .submenu-arrow {
+        transform: translateX(0px);
+    }
+
+.submenu-logout {
+    padding: 10px;
+    background-color: goldenrod;
+    border-radius: 4px;
+    transition: all 0.4s;
+}
+
+.submenu-admin {
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.4s;
+}
+
+.submenu-admin-icon {
+    fill: goldenrod;
+}
+
+.submenu-admin-name {
+    font-size: 17px;
+    margin-left: 10px;
+    position: relative;
+    bottom: 10px;
+    color: rgb(44, 44, 44);
+}
+
+.submenu-admin-arrow {
+    float: right;
+    font-size: 35px;
+    color: goldenrod;
+    transform: translateX(-10px);
+    transition: transform 0.5s;
+}
+
+.submenu-admin:hover {
+    padding: 10px;
+    background-color: goldenrod;
+}
+
+.submenu-admin-arrow, .submenu-admin-name, .submenu-admin-icon {
+    color: goldenrod;
+    fill: goldenrod;
+    transition: color fill 0.4s;
+}
+
+.submenu-admin:hover .submenu-admin-name {
+    color: white;
+}
+
+.submenu-admin:hover .submenu-admin-arrow {
+    color: white;
+    transform: translateX(0px);
+}
+
+.submenu-admin:hover .submenu-admin-icon {
+    fill: white;
+}
+
+
+
+.submenu-logout {
+    padding: 10px;
+    background-color: goldenrod;
+    border-radius: 4px;
+    transition: all 0.4s;
+}
+
+.submenu-logout {
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.4s;
+}
+
+.submenu-logout-icon {
+    fill: red;
+}
+
+.submenu-logout-name {
+    font-size: 20px;
+    margin-left: 10px;
+    position: relative;
+    bottom: 10px;
+    color: rgb(44, 44, 44);
+}
+
+.submenu-logout-arrow {
+    float: right;
+    font-size: 35px;
+    color: red;
+    transform: translateX(-10px);
+    transition: transform 0.5s;
+}
+
+.submenu-logout:hover {
+    padding: 10px;
+    background-color: red;
+}
+
+.submenu-logout-arrow, .submenu-logout-name, .submenu-logout-icon {
+    color: red;
+    fill: red;
+    transition: color fill 0.4s;
+}
+
+.submenu-logout:hover .submenu-logout-name {
+    color: white;
+}
+
+.submenu-logout:hover .submenu-logout-arrow {
+    color: white;
+    transform: translateX(0px);
+}
+
+.submenu-logout:hover .submenu-logout-icon {
+    fill: white;
+}
+
+/* =====================Search Input bar=========================== */
+
+#s_filter {
+    margin-top: 20px;
+}
+
+.search_filter_label {
+    cursor: pointer;
+    padding: 20px;
+    font-size: 25px;
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out, text-decoration 0.4s ease-in-out;
+    text-decoration: none;
+}
+
+.search_filter_input {
+    display: none;
+}
+
+    .search_filter_input:checked + label {
+        color: red;
+        font-weight: 700;
+        transition: color 0.2s ease;
+        transform: scale(50px);
+        text-decoration: underline;
+    }
+
+    .search_filter_input:hover + label {
+        color: rgb(124, 0, 0);
+    }
+
+/* =====================Searched user page=========================== */
+
+#userbox-container {
+    width: 100%;
+    display: flex;
+    grid-template-columns: auto auto;
+    grid-gap: 50px;
+    margin-top: 60px;
+}
+
+.userbox {
+    width: 630px;
+    margin-left: 25px;
+    height: 200px;
+    padding: 20px;
+    border: groove palevioletred;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 100%;
+    background-color: white;
+}
+
+#userbox-detail {
+    /* background-color: green; */
+}
+
+#userbox-pfp {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 35px;
+    object-fit: cover;
+}
+
+#userbox-name {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#userbox-bio {
+    /* background-color: red; */
+    /* margin-left: 150px; */
+    width: 350px;
+    overflow-wrap: break-word; /* ensures long words wrap */
+    word-break: break-word; /* avoids overflow on insane words */
+    white-space: normal; /* allows wrapping */
+    overflow: hidden; /* hides any extra if still overflows */
+    box-sizing: border-box;
+}
+
+#profile_fcount {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#profile_fcount:hover{
+    color: goldenrod;
+}
+
+#follow-btn {
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+    border: groove 3px rgb(243, 77, 110);
+    background-color: transparent;
+    color: rgb(243, 77, 110);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    #follow-btn:hover {
+        background-color: rgb(251, 74, 74);
+        color: white
+    }
+
+.follow-btn {
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+    border: groove 3px rgb(243, 77, 110);
+    background-color: transparent;
+    color: rgb(243, 77, 110);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    .follow-btn:hover {
+        background-color: rgb(251, 74, 74);
+        color: white
+    }
+
+/* Notification Box */
+
+#Notification-container {
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 15px;
+    border: groove 1px rgb(181, 126, 43);
+    background-color: white;
+    width: 60%;
+    height: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#Notificationbox {
+    width: 100%;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 25px;
+    padding-bottom: 30px;
+}
+
+#Notificationbox:hover{
+    background-color: darkgray;
+}
+
+#tag {
+    color: blue;
+    text-decoration: underline;
+}
+
+#noti-pfp {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+#noti-detail {
+    font-size: 25px;
+    font-weight: bold;
+    flex-grow: 1;
+    overflow-wrap: break-word; /* ensures long words wrap */
+    word-break: break-word; /* avoids overflow on insane words */
+    white-space: normal; /* allows wrapping */
+    overflow: hidden; /* hides any extra if still overflows */
+    box-sizing: border-box;
+}
+
+#noti-post {
+    max-width: 200px;
+    /* background-color: green; */
+    display: flex;
+    margin-left: 40px;
+    align-items: center;
+}
+
+    #noti-post img {
+        max-width: 200px;
+        max-height: 200px;
+        object-fit: contain;
+    }
+
+#noti-date {
+    font-size: 18px;
+    color: gray;
+}
+
+.clear-link {
+    color: unset;
+    cursor: pointer;
+    width: 1000px;
+    text-decoration: none;
+}
+
+/*===============Alert box=================*/
+#alertBox{
+    display:none;
+    position: fixed;
+    top: 80%;
+    left: 5%;
+    background-color:seagreen;
+    padding: 10px;
+    color:white;
+    width: 85%;
+/*    height: 20px;*/
+    font-weight: 800;
+}
+
+/* ===============Blackout================= */
+
+.bolder{
+    font-weight: bolder;
+}
+
+.normal-p{
+    font-weight:lighter;
+}
+
+#blackout {
+    z-index: 101;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+    #blackout.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+#blackout-window {
+    margin: auto;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    max-width: 750px;
+    height: 600px;
+}
+
+#blackout-contentbox {
+    text-align:left;
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 500px;
+    padding: 20px;
+    max-height: 500px;
+/*        background-color: red;*/
+    font-stretch: expanded;
+}
+
+.closebtnpop {
+    cursor:pointer;
+    margin-top:10px;
+    padding: 10px;
+    background-color: black;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* ==============Main page================ */
+
+#center-main {
+    background-color: white;
+    margin: auto;
+    max-width: 800px;
+    border-radius: 15px;
+    border: solid 1px rgb(67, 62, 55);
+    /* height: 200px; */
+    padding-bottom: 20px;
+    padding-left: 120px;
+}
+
+.center-post {
+    text-align: left;
+    margin-top: 30px;
+    border: solid 1px gray;
+    max-width: 600px;
+    padding: 20px;
+}
+
+.poster {
+    width: 600px;
+    max-height: 100px;
+    /* background-color: green; */
+    display: flex;
+    position: relative;
+}
+
+    .poster img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+
+.poster-name {
+/*    background-color: yellow;*/
+    width: 450px;
+    font-size: 30px;
+    margin-top: 3px;
+}
+
+.poster-date {
+    margin-top: -20px;
+}
+
+.poster-moreinfo {
+    float: right;
+    height: 30px;
+    width: 50px;
+    font-size: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.moreoption {
+    border: solid 1px black;
+    position: absolute;
+    right: 0;
+    top: 38px;
+    width: 200px;
+    height: max-content;
+    background-color: white;
+    display: none;
+}
+
+
+.moreoption-button {
+    display: inline;
+}
+
+    .moreoption-button button {
+        cursor: pointer;
+        height: 40px;
+        width: 200px;
+        text-align: left;
+        background-color: transparent;
+        border: transparent;
+        padding-left: 10px;
+        font-size: 16px;
+        transition: background-color 0.3s
+    }
+
+        .moreoption-button button:hover {
+            background-color: rgb(202, 202, 202);
+        }
+
+    .moreoption-button img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+.postcontent {
+    width: 600px;
+    grid-template-columns: auto auto;
+    display: grid;
+    /* background-color: palegoldenrod; */
+}
+
+.img1 {
+    width: 300px;
+    height: 300px;
+}
+
+    .img1 img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+    }
+
+.action-btn {
+    display: flex;
+    align-items: center;
+}
+
+.like_btn, .comment_btn {
+    background-color: transparent;
+    border: transparent;
+    cursor: pointer;
+    /* background-color: aqua; */
+    text-align: left;
+    font-size: 18px;
+}
+
+    .like_btn:hover {
+        fill: blue;
+    }
+
+.like_count {
+    position: relative;
+    bottom: 5px;
+}
+
+.comment_btn:hover {
+    fill: goldenrod;
+    color: goldenrod;
+}
+
+/* ==============Profile Edit=============== */
+#profile_menu {
+    margin: auto;
+    margin-top: 40px;
+    border: solid 1px black;
+    width: 1000px;
+    /* border-radius: 20px; */
+    /* padding:20px; */
+    background-color: white;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+
+#profile_banner {
+/*    background-color: aqua;*/
+    width: 100%;
+    height: 300px;
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+
+#profile_image_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -60px;
+}
+
+#profile_image {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+#profile_nickname {
+    margin-top: -5px;
+}
+
+#profile_username {
+    margin-top: -10px;
+    color: rgb(118, 118, 118);
+}
+
+#profile_friend_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+#profile_detail {
+    /* display: flex; */
+    width: 100%;
+    background-color: blue;
+}
+
+#profile_fcount {
+    /* background-color: green; */
+    width: 100px;
+    height: 90px;
+    text-align: center;
+    margin-top: -150px;
+    margin-left: 20px;
+    /* border: solid 1px black; */
+    border-radius: 20px;
+}
+
+#profile_fcount1 {
+    margin-top: -20px;
+}
+
+#profile_jd {
+    float: right;
+    /* background-color: purple; */
+    padding: 10px;
+    border: solid 2px rgb(118, 118, 118);
+    color: rgb(118, 118, 118);
+    font-weight: bold;
+    margin-top: -150px;
+    margin-right: 120px;
+}
+
+#profile_nv_post {
+    margin: auto;
+    margin-top: 20px;
+    border: solid 1px black;
+    width: 1000px;
+    border-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: white;
+    text-align: center;
+    display: flex !important;
+    padding-left: 10px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.profile_sub_btn {
+    cursor: pointer;
+    font-size: 18px;
+    width: 120px;
+    background-color: unset;
+    border: unset;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.profile_sub_label {
+    cursor: pointer;
+    /* background-color: aqua; */
+    font-size: 18px;
+    width: 80px;
+    padding: 30px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.profile_sub_radio1,
+.profile_sub_radio2,
+.profile_sub_radio3{
+    display: none;
+}
+
+.profile_sub_radio1:hover + label,
+.profile_sub_radio2:hover + label,
+.profile_sub_radio3:hover + label{
+    color: rgb(173, 132, 28);
+}
+
+.profile_sub_radio1:checked + label,
+.profile_sub_radio2:checked + label,
+.profile_sub_radio3:checked + label{
+    color: goldenrod;
+    font-weight: 700;
+    transition: color 0.2s ease;
+    /* text-decoration: underline; */
+}
+
+.profile_sub_radio1:checked ~ #profile_sub_bar {
+    transform: translateX(3px);
+}
+
+.profile_sub_radio2:checked ~ #profile_sub_bar {
+    transform: translateX(97px);
+}
+
+.profile_sub_radio3:checked ~ #profile_sub_bar {
+    transform: translateX(206px);
+}
+
+#profile_sub_bar, #profile_sub_bar2 {
+    background-color: goldenrod;
+    height: 5px;
+    width: 80px;
+    position: relative;
+    top:13px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    /* right: 665px; */
+}
+
+#profile_searchbox {
+    width: 360px;
+    margin-left: 100px;
+    margin-top:-5px;
+    height: 36px;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    border: solid 1px black;
+    border-right: none;
+    padding-left: 10px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+#profile_searchbutton {
+    width: 45px;
+    height: 40px;
+    margin-top: -5px;
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    background-color: inherit;
+    border-left: 0px;
+    border: solid 1px black;
+    background-image: url('../images/icon/black_magne.png');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: pointer;
+}
+
+#profile_content {
+    margin: auto;
+    width: 1010px;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 20px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top: none;
+    background-color: white;
+    text-align: center;
+    justify-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#loader{
+    display:none
+}
+
+#profile-loader{
+    image-rendering: pixelated;
+    filter: grayscale(100%);
+}
+
+#profile_badges_container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    justify-content: center;
+}
+
+#badge1 {
+    /* background-color: green; */
+    width: 100px;
+}
+
+.badges {
+    height: 100px;
+    width: 100px;
+}
+
+.badges_info {
+    display: none;
+    pointer-events: none;
+    position: relative;
+    padding: 10px;
+    margin-top: -111px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    width: 200px;
+    border: groove 1px grey;
+}
+
+    .badges_info p {
+        font-size: 15px;
+    }
+
+#badge1:hover .badges_info {
+    display: block;
+}
+label > * {
+    vertical-align: text-top;
+}
+
+/*Report*/
+.form-cc{
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+}
+
+.text-cc {
+    width: 100%;
+    height: 200px;
+    margin-left: 5px;
+    font-size: 40px;
+    color: rgb(0, 0, 0);
+    border: 1px groove gray;
+    padding: 10px;
+    resize: none;
+    font: 1em sans-serif;
+    transition: height 0.5s;
+}
+
+.form {
+    width: 650px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+    .form > label:not(:has(*)) {
+        background: #ccc;
+        font-weight: bold;
+        padding: 5px;
+        place-self: stretch;
+    }
+
+    .form > section,
+    .validation-summary-valid,
+    .validation-summary-errors {
+        grid-column: 1 / -1;
+    }
+
+        .validation-summary-valid ul,
+        .validation-summary-errors ul {
+            margin: 0;
+        }
+
+.field-validation-error,
+.validation-summary-errors {
+    color: red;
+}
+
+/* Photo Upload --------------------------------------------------------------- */
+
+.upload img {
+    border-radius: 50%;
+    display: block;
+    border: 1px solid #333;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.login-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+/*    background: #f5f5f5;*/
+    border-radius: 10px;
+    gap: 50px;
+    margin: auto;
+}
+
+#question, .bh{
+    cursor: pointer;
+    transition: stroke 0.3s;
+}
+
+#question:hover .bh{
+    stroke: goldenrod
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+.a-btn {
+    width: 50%;
+    padding: 12px;
+    background: #000;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    background: #000;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .login-btn:hover, .a-btn:hover {
+        background: #ccc;
+    }
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeInRight 1s ease;
+}
+
+    .input input{
+        height: 35px;
+        padding-left: 10px;
+        font-size: 20px;
+    }
+
+    .input select {
+        height: 35px;
+        padding-left: 10px;
+        font-size: 20px;
+    }
+
+.label {
+    text-align: right;
+}
+
+.Logo{
+    padding: 20px
+}
+
+.Logo img {
+    height: 180px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    animation: fadeInLeft 1s ease;
+    background-color:rgb(0, 0, 0, 0.25);
+}
+
+
+/*==============================================switch on and off==============================================*/
+
+#onoff {
+    opacity: 0;
+}
+
+    #onoff + label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    #onoff + label::before {
+        content: "";
+        width: 70px;
+        height: 30px;
+        border-radius: 17px;
+        background-color: grey;
+    }
+
+    #onoff + label::after {
+        content: "";
+        width: 25px;
+        height: 25px;
+        border-radius: 17px;
+        background-color: white;
+        border: 1px solid black;
+        margin-left: -65px;
+        transition: margin-left 0.2s;
+    }
+
+#onoff:checked + label::after {
+    margin-left: -30px;
+}
+
+#onoff:checked + label::before {
+    background-color: goldenrod;
+}
+
+.i_nickname {
+    position:absolute;
+    width: 20%;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px;
+}
+
+.h_nickname:hover .i_nickname{
+    display: block;
+}
+
+.center-comment {
+    margin-top: 30px;
+    max-width: 600px;
+    padding: 20px;
+    /* border: solid 1px gray; */
+    border-radius: 10px;
+    background-color: rgba(226, 226, 226, 0.518);
+    display: flex;
+}
+
+    .center-comment img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+
+.commenterd {
+    display: inline;
+    width: 450px;
+    /* background-color: brown; */
+}
+
+.commenter-name {
+    font-size: 30px;
+    margin-top: -5px;
+    font-weight: bold;
+}
+
+.commenter-date {
+    margin-top: -30px;
+}
+
+.commenter-textarea {
+    width: 430px;
+    margin-top: -20px;
+    height: 20px;
+    margin-left: 5px;
+    font-size: 40px;
+    color: rgb(0, 0, 0);
+    border: 1px groove gray;
+    padding: 10px;
+    resize: none;
+    font: 1em sans-serif;
+    transition: height 0.5s;
+}
+
+    .commenter-textarea:focus {
+        height: 200px;
+    }
+
+.commentoption {
+    border: solid 1px black;
+    position: absolute;
+    right: 0px;
+    top: 200px;
+    width: 200px;
+    height: max-content;
+    background-color: white;
+    display:block;
+}
+
+.morecommentoption-button {
+    display: inline;
+}
+
+.morecommentoption-button button {
+    cursor: pointer;
+    height: 40px;
+    width: 200px;
+    text-align: left;
+    background-color: transparent;
+    border: transparent;
+    padding-left: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s
+}
+
+    .morecommentoption-button button:hover {
+        background-color: rgb(202, 202, 202);
+    }
+
+/* =============extra shit============== */
+
+#gameOverScreen {
+    color: red;
+    display: none;
+    text-align: center;
+    margin-top: -300px;
+}
+
+#gameDrawScreen {
+    color: gold;
+    display: none;
+    text-align: center;
+    margin-top: -300px;
+}
+
+#gameWonScreen {
+    color: rgb(16, 178, 16);
+    display: none;
+    text-align: center;
+    margin-top: -300px;
+}
+
+#cardContainer {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    max-width: 700px;
+    height: 160px;
+    padding: 10px;
+    background-color: green;
+}
+
+#cardContainer_enemy {
+    margin: auto;
+    justify-content: center;
+    display: flex;
+    max-width: 700px;
+    height: 160px;
+    padding: 10px;
+    background-color: rgb(188, 0, 0);
+}
+
+
+#card {
+    width: 100px;
+    height: 150px;
+    background-color: aliceblue;
+    border-radius: 5px;
+    border: solid 1px black;
+    text-align: center;
+    align-items: center;
+}
+
+.card_symbol {
+    font-size: 30px;
+    margin-top: 50px;
+}
+
+
+
+#white{
+    margin-left: 650px;
+    position: fixed;
+    top: 120px;
+/*    bottom: 30%;*/
+    width: 330px;
+/*    height: 100px;*/
+    padding: 20px;
+    background-color: white;
+    border: 1px groove black;
+}
+
+#whiteoption{
+    display: flex;
+    width: 330px;
+    height: 20px;
+    align-items:center;
+}

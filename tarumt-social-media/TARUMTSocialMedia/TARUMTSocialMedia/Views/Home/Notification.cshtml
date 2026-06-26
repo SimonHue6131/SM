@@ -1,0 +1,58 @@
+﻿@inject DB db;
+@inject Helper hp;
+@model IEnumerable<Notification>
+
+<style>
+    #notification-clearbutton {
+        width: 10%;
+        background-color: white;
+        text-align:center;
+        margin-left: 70%;
+        padding: 10px;
+        border: groove 1px red;
+        border-radius: 25px;
+        cursor: pointer;
+        color: red;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    #notification-clearbutton:hover {
+        background-color: red;
+        color: white;
+    }
+
+    a{
+        text-decoration: none !important;
+    }
+</style>
+
+@{
+    var noti = db.Notification.Where(n => n.UserId == hp.GetUserID(User.Identity.Name)).OrderByDescending(n => n.DateNotificated).ToList();
+}
+
+@for (int i = 0; i <= 5; i++)
+{
+    <br>
+}
+
+<a data-ajax="true" data-ajax-update="#Notification-container" 
+   data-ajax-loading="#loading" method="post" href="/Home/Notification">
+    <div id="notification-clearbutton">
+        Clear
+    </div>
+</a>
+
+<div id="Notification-container">
+    <div id="loading" style="display:none">Loading...</div>
+    @if(noti.Count() == 0)
+    {
+          <partial name="_NoNotification"/>
+    }
+    else{
+        foreach (var n in noti)
+        {
+            <partial name="_LoadNotification" model="n" />
+        }
+    }
+</div>

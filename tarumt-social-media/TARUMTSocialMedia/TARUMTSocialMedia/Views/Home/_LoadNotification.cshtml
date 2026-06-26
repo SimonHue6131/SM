@@ -1,0 +1,18 @@
+﻿
+<a class="clear-link" href="@Model.Link">
+<div id="Notificationbox">
+     @if (!string.IsNullOrEmpty(Model.UserPhoto)){
+        <img id="noti-pfp" src="~/images/profile/@Model.UserPhoto">
+    }
+    <div id="noti-detail">
+        <p>
+            @Model.Message
+        </p>
+        <p id="noti-date">@Model.DateNotificated</p>
+    </div>
+
+    <div id="noti-post">
+        <img src="~/images/@Model.Photo">
+    </div>
+</div>
+</a>

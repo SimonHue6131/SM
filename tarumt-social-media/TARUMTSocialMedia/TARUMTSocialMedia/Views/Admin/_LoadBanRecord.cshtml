@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BanRecord>
+@inject Helper hp
+
+<table style="margin-top: 20px">
+    <tr style="border: 1px solid black;">
+        <th>ID</th>
+        <th>User</th>
+        <th>Reason</th>
+        <th>Ban date</th>
+        <th>Unban date</th>
+        <th>action</th>
+    </tr>
+
+    @foreach (var u in Model)
+    {
+        <tr style="height: 50px">
+            <td>@u.Id</td>
+            <td>@hp.GetUserName(u.UserId)</td>
+            <td>@u.Reason</td>
+            <td>@u.StartDate</td>
+            <td>@u.EndDate</td>
+            <td>
+                <form asp-action="unbanUser" asp-controller="Admin" method="post">
+                    <input name="BanRecordID" value=@u.Id hidden>
+                    <button type="submit" class="Detail">Unban</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,129 @@
+﻿ @for (int i = 0; i <= 4; i++)
+{
+    <br>
+}
+
+<style>
+    .admin_menu {
+        width: 1500px;
+        background-color: white;
+        margin: auto;
+        display: grid !important;
+        grid-template-columns: auto auto auto auto;
+        justify-content: center;
+         grid-gap: 50px;
+    }
+
+    .admin_button{
+        width: 220px;
+        height: 220px;
+        /* background-color: lime; */
+        cursor: pointer;
+        text-align: center;
+        color: white;
+        padding: 20px;
+        display: inline-grid;
+        justify-content: center;
+    }
+
+    #admin_icon{
+        background-color: darkred;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        transition: background-color 0.5s;
+    }
+
+    #admin_icon img{
+            width: 200px;
+    }
+
+    p{
+        color: darkred;
+        transition: color 0.5s;
+    }
+
+    .admin_button:hover #admin_icon{
+        background-color: orangered
+    }
+
+    .admin_button:hover p{
+        color: orangered
+    }
+</style>
+
+<div class="admin_menu">
+    <a href="memberlist">
+    <div class="admin_button">
+        <div id="admin_icon">
+            <img src="~/images/icon/member_list.png">
+        </div>
+        <p>Member List</p>
+    </div>
+    </a>
+
+    <a href="Notification">
+    <div class="admin_button">
+        <div id="admin_icon">
+            <img src="~/images/icon/add_bell.png">
+        </div>
+        <p>Manage Notification</p>
+    </div>
+    </a>
+
+    <a href="ban_record_list">
+    <div class="admin_button">
+        <div id="admin_icon">
+            <img src="~/images/icon/Banned_member.png">
+        </div>
+        <p>Banned member</p>
+    </div>
+    </a>
+
+    <a href="adminlist">
+    <div class="admin_button">
+        <div id="admin_icon">
+            <img src="~/images/icon/Admin_list.png">
+            </div>
+        <p>Admin list</p>
+    </div>
+    </a>
+
+    <a href="postlist">
+        <div class="admin_button">
+            <div id="admin_icon">
+            <img src="~/images/icon/All_post.png">
+            </div>
+            <p>All Posts</p>
+        </div>
+    </a>
+
+    <a href="commentlist">
+    <div class="admin_button">
+        <div id="admin_icon">
+        <img src="~/images/icon/All_comment.png">
+            </div>
+        <p>All comments</p>
+
+    </div>
+    </a>
+
+    <a href="reported_post">
+    <div class="admin_button">
+        <div id="admin_icon">
+            <img src="~/images/icon/reported_post.png">
+            </div>
+        <p>Reported Post</p>
+    </div>
+    </a>
+
+    <a href="reported_comment">
+        <div class="admin_button">
+            <div id="admin_icon">
+            <img src="~/images/icon/Reported_comment.png">
+            </div>
+            <p>Reported Comment</p>
+        </div>
+    </a>
+
+</div>

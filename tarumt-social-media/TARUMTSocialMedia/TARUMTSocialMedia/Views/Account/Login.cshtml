@@ -1,0 +1,77 @@
+﻿@model LoginVM
+@await Html.PartialAsync("_blackout");
+
+
+<div class="login-box">
+    <div class="Logo">
+        <img src="~/images/logo.png" />
+
+    </div>
+    <form class="form" asp-controller="Account" asp-action="Login" method="post">
+        <div class="input">
+      
+            <label asp-for="Email"></label>
+            <input asp-for="Email" autofocus>
+            <span asp-validation-for="Email"></span>
+
+            <label asp-for="Password"></label>
+            <input asp-for="Password">
+            <span asp-validation-for="Password"></span>
+
+            <div>
+            <label>
+                <input asp-for="RememberMe" style="margin-top: -8px">Remember Me
+            </label>
+             <span style="float: right" onclick="toggleBlackout(BL_ToSContent())" id="question">
+                <svg height="20" width="20" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#000000" stroke-linecap="round">
+                       <path class="bh" stroke-width="1" d="M9.008 8.84a3.185 3.185 0 0 1 3.471-1.806a3.09 3.09 0 0 1 2.265 1.614a2.682 2.682 0 0 1-1.562 3.689a1.98 1.98 0 0 0-1.276 1.787v.738"></path>
+                       <path class="bh" stroke-linejoin="round" stroke-width="2" d="M11.881 17.424h.008"></path>
+                       <path class="bh" stroke-linejoin="round" stroke-width="1" d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
+                    </g>
+                </svg>
+            </span> 
+            </div>
+
+            <section>
+                <button type="submit" class="login-btn">Login</button>
+                <button class="a-btn" type="reset" >Reset</button>
+            </section>
+    </form>
+
+    <p>
+        [<a href="/Account/Register">Register</a>|
+        <a href="/Account/ResetPassword">Reset Password</a> ]
+    </p>
+
+</div>
+</div>
+
+<script>
+    function BL_ToSContent(){
+        return `
+            <h2>Login Guide</h2>
+            <hr>
+            <ul>
+                <li class="bolder">Enter your E-mail address on the "Email" textbox.
+                    <ol>
+                        <li class="normal-p">Ensure your E-mail address must require '@@' symbol.</li>
+                        <li class="normal-p">Ensure your E-mail address are all alphatbetic characters, except for symbols.</li>
+                    </ol>
+                </li>
+                <br>
+                <li class="bolder">Enter your Password address on the "Password" textbox.
+                    <ol>
+                        <li class="normal-p">Password must have minimum of 6 characters</li>
+                    </ol>
+                </li>
+                <br>
+                <li class="bolder">Tickable "Remember Me" allowing users to stay logged in between sessions without having to re-enter their credentials every time users visit the site.</li>
+                <br>
+                <li class="bolder">If following entries are fulfilled but unable to login, our database didn't store your account details. Registration is required. Please direct to <a href="/Account/Register"> 'Register'</a>.</li><br>
+                <li class="bolder">If your password has forgot, please direct to 'Forgot Password'</li>
+            </ul>
+        `;
+    }
+
+</script>

@@ -1,0 +1,150 @@
+﻿@model RegisterVM
+@await Html.PartialAsync("_blackout");
+
+<style>
+    .tos{
+        text-decoration: underline;
+        color: orange;
+        cursor:pointer;
+    }
+
+    .tos:hover {
+        text-decoration: underline;
+        color: darkgoldenrod;
+    }
+</style>
+
+<body>
+<div class="login-box" style="margin-top:-20px">
+    <form class="form" method="post" enctype="multipart/form-data">
+    <div class="Logo" style="margin-left: 200px;>
+        <label asp-for="Photo"></label>
+        <label class="upload">
+                <input asp-for="Photo" accept="image/jpeg,image/png" id="inpute" hidden>
+                <span asp-validation-for="Photo"></span>
+
+            <img id="previewprofile" src="~/images/profile/_null.png">
+        </label>
+    </div>
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="input">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" autofocus>
+            <span asp-validation-for="Email"></span>
+
+            <label asp-for="Username"></label>
+            <input asp-for="Username">
+            <span asp-validation-for="Username"></span>
+
+            <label asp-for="Password"></label>
+            <input asp-for="Password">
+            <span asp-validation-for="Password"></span>
+
+            <label asp-for="Confirm"></label>
+            <input asp-for="Confirm">
+            <span asp-validation-for="Confirm"></span>
+
+            <label asp-for="Gender"></label>
+            <select asp-for="Gender" class="form-control">
+                <option value="F">Female</option>
+                <option value="M">Male</option>
+            </select>
+            <span asp-validation-for="Gender"></span>
+
+        </div>
+            <div>
+                <input type="checkbox">I have agree the <span class="tos" onclick="toggleBlackout(BL_ToSContent())">term of service</span>
+
+                <span style="float: right" onclick="toggleBlackout(BL_Guide())" id="question">
+                    <svg height="20" width="20" viewBox="0 0 24 24">
+                        <g fill="none" stroke="#000000" stroke-linecap="round">
+                            <path class="bh" stroke-width="1" d="M9.008 8.84a3.185 3.185 0 0 1 3.471-1.806a3.09 3.09 0 0 1 2.265 1.614a2.682 2.682 0 0 1-1.562 3.689a1.98 1.98 0 0 0-1.276 1.787v.738"></path>
+                            <path class="bh" stroke-linejoin="round" stroke-width="2" d="M11.881 17.424h.008"></path>
+                            <path class="bh" stroke-linejoin="round" stroke-width="1" d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
+                        </g>
+                    </svg>
+                </span>
+            </div>
+            <p>Back to <a href="login">[login]</a></p>
+
+        <section style="">
+            <button class="a-btn" style="width: 140px;">Register</button>
+            <button class="a-btn" style="width: 140px" type="reset">Reset</button>
+        </section>
+    </form>
+</div>
+</body>
+
+<script>
+    const inputProfileFile = document.getElementById("inpute");
+    const Profilepreview = document.getElementById("previewprofile");
+
+    inputProfileFile.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                Profilepreview.src = e.target.result;
+                Profilepreview.style.display = "block";
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function BL_ToSContent(){
+        return `
+            <h2>Terms Of Service</h2>
+            <hr>
+            <ol>
+                <li>We don't have one.</li>
+            </ol>
+        `;
+    }
+
+    function BL_Guide(){
+        return `
+        <h2>Registration Guide</h2>
+            <hr>
+            <ul>
+                <li class="bolder">Ensure all required entries are completed before clicking Register (except for Profile Image as optional).</li>
+                <br>
+                <li class="bolder">(OPTIONAL) The image with the weird-shape from the top of the form is your profile image, click on it and select preferred image to change upon registering.</li>
+                <br>
+                <li class="bolder">If any entry is highlighted with a red border, it indicates error. Please check the following:</li>
+                <br>
+
+                <li class="bolder">Enter your E-mail address on the "Email" textbox.
+                    <ol>
+                        <li class="normal-p">Ensure your E-mail address must require '@@' symbol.</li>
+                        <li class="normal-p">Ensure your E-mail address are all alphatbetic characters, except for symbols.</li>
+                        <li class="normal-p">Ensure the E-mail MUST belong to an individual and not be already taken.</li>
+                    </ol>
+                </li>
+                <br>
+                <li class="bolder">Enter your prefered username on the "Username" textbox.
+                    <ol>
+                        <li class="normal-p">Username is belongs to individual, and is not sharable with others.</li>
+                        <li class="normal-p">Ensure the username is not taken by other.</li>
+                        <li class="normal-p">Spacebar in username is not valid.</li>
+                        <li class="normal-p">User can set "Nickname" with any character, as part of the displayable. After registration.</li>
+                    </ol>
+                </li>
+                <br>
+                <li class="bolder">Enter your password on the "Password" and "Confirm Password" textboxes.
+                    <ol>
+                        <li class="normal-p">Password must have minimum of 6 characters.</li>
+                        <li class="normal-p">Ensure the characters from "Confirm Password" textbox are same as "Password". This INCLUDED symbols.</li>
+                        <li class="normal-p">Password can be set as anything depends user's depth of memory.</li>
+                        <li class="normal-p">Database stored users' password through processing hashing.</li>
+                    </ol>
+                </li>
+                <br>
+                <li class="bolder">Set your gender from the drop-down list.</li>
+                <br>
+                <li class="bolder">If following entries are fulfilled with correct entries, our database has already store your account detail. Please direct to <a href="/Account/Login"> 'Login'</a>.</li><br>
+            </ul>
+            `
+    }
+</script>
